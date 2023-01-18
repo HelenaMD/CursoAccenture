@@ -4,7 +4,7 @@ public class Ejercicio3 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		final double PI = 3.14;
+		final double PI = Math.PI;
 		int radio = 23;
 		
 		double area = PI * Math.pow(radio, 2);
