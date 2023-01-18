@@ -1,0 +1,4 @@
+Hola Miguel,
+
+He tenido problemas para subir a las 18:00 en punto el repositorio ya que tuve que reiniciar el equipo al volver
+y se me corrompieron archivos del main branch. Ya está todo arreglado y al dia en el GitHub.
