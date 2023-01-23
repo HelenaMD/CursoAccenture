@@ -1,4 +1,6 @@
-package ejercicioDiapositivasHerencia.diapositiva20;
+package ejercicioDiapositivasHerencia.herenciaFormas;
+
+import ejercicioDiapositivasHerencia.composicionFormas.Punto;
 
 /**
  * Clase Triangulo que hereda de Formas
@@ -16,9 +18,22 @@ public class Triangulo extends Formas {
 	 * Constructor principal de la clase
 	 * @param medidaBasica
 	 * @param altura
+	 * @param x int
+	 * @param y int
 	 */
-	public Triangulo(int medidaBasica, int altura) {
-		super(medidaBasica);
+	public Triangulo(int medidaBasica, int altura, int x, int y) {
+		super(medidaBasica, x, y);
+		setAltura(altura);
+	}
+	
+	/**
+	 * Constructor alternativo de la clase
+	 * @param medidaBasica
+	 * @param altura
+	 * @param p Punto
+	 */
+	public Triangulo(int medidaBasica, int altura, Punto p) {
+		super(medidaBasica, p);
 		setAltura(altura);
 	}
 
@@ -57,5 +72,12 @@ public class Triangulo extends Formas {
 		return (getMedidaBasica()*getAltura())/2;
 	}
 	
-	
+	/**
+	 * Metodo que muestra el valor de las coordenadas de inicio
+	 */
+	@Override
+	public void mostrarPuntoOrigen() {
+		// TODO Auto-generated method stub
+		System.out.println("El Triangulo comienza en las coordenadas " + getPuntoOrigen().toString());
+	}
 }

@@ -1,4 +1,6 @@
-package ejercicioDiapositivasHerencia.diapositiva20;
+package ejercicioDiapositivasHerencia.herenciaFormas;
+
+import ejercicioDiapositivasHerencia.composicionFormas.Punto;
 
 /**
  * Clase Cuadrado que hereda de la clase Formas
@@ -9,9 +11,20 @@ public class Cuadrado extends Formas {
 	/**
 	 * Cosntructor principal de la clase
 	 * @param lado
+	 * @param x int
+	 * @param y int
 	 */
-	public Cuadrado(int lado) {
-		super(lado);
+	public Cuadrado(int lado, int x, int y) {
+		super(lado, x, y);
+	}
+	
+	/**
+	 * Cosntructor alternativo de la clase
+	 * @param lado
+	 * @param p Punto
+	 */
+	public Cuadrado(int lado, Punto p) {
+		super(lado, p);
 	}
 
 	/**
@@ -39,6 +52,15 @@ public class Cuadrado extends Formas {
 	public double calcularArea() {
 		// TODO Auto-generated method stub
 		return getMedidaBasica()*getMedidaBasica();
+	}
+	
+	/**
+	 * Metodo que muestra el valor de las coordenadas de inicio
+	 */
+	@Override
+	public void mostrarPuntoOrigen() {
+		// TODO Auto-generated method stub
+		System.out.println("El Cuadrado comienza en las coordenadas " + getPuntoOrigen().toString());
 	}
 
 }

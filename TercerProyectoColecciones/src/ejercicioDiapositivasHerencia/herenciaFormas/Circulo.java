@@ -1,4 +1,6 @@
-package ejercicioDiapositivasHerencia.diapositiva20;
+package ejercicioDiapositivasHerencia.herenciaFormas;
+
+import ejercicioDiapositivasHerencia.composicionFormas.Punto;
 
 /**
  * Clase Circulo que hereda de Formas
@@ -10,9 +12,20 @@ public class Circulo extends Formas {
 	/**
 	 * Cosntructor principal de la clase
 	 * @param lado
+	 * @param x int
+	 * @param y int
 	 */
-	public Circulo(int radio) {
-		super(radio);
+	public Circulo(int radio, int x, int y) {
+		super(radio, x, y);
+	}
+	
+	/**
+	 * Cosntructor alternativo de la clase
+	 * @param lado
+	 * @param p Punto
+	 */
+	public Circulo(int radio, Punto p) {
+		super(radio, p);
 	}
 
 	/**
@@ -32,5 +45,14 @@ public class Circulo extends Formas {
 	public double calcularArea() {
 		// TODO Auto-generated method stub
 		return Math.PI*(getMedidaBasica()*getMedidaBasica());
+	}
+
+	/**
+	 * Metodo que muestra el valor de las coordenadas de inicio
+	 */
+	@Override
+	public void mostrarPuntoOrigen() {
+		// TODO Auto-generated method stub
+		System.out.println("El Circulo comienza en las coordenadas " + getPuntoOrigen().toString());
 	}
 }
