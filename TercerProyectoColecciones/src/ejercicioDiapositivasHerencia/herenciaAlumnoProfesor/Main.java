@@ -1,6 +1,7 @@
 package ejercicioDiapositivasHerencia.herenciaAlumnoProfesor;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 
 public class Main {
@@ -24,6 +25,12 @@ public class Main {
 		
 		//Muestro datos
 		System.out.println(alumno1.toString());
+		
+		Calendar c = Calendar.getInstance();
+		System.out.println(c.get(Calendar.DATE) + "/" + (c.get(Calendar.MONTH)+1) + "/" + c.get(Calendar.YEAR));
+		/*System.out.println(c.get(Calendar.MONTH));
+		System.out.println(c.get(Calendar.YEAR));*/
+		System.out.println(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
 	}
 
 }
