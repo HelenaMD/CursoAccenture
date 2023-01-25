@@ -38,22 +38,9 @@ public class Movimiento {
 	 * @throws LongitudStringInvalidaException 
 	 */
 	public Movimiento(String mConcepto, double mImporte) throws LongitudStringInvalidaException {
-		if (Filtro.filtroConceptoMovimiento(mConcepto)) {
-			setmConcepto(mConcepto);
-		} else {
-			throw new LongitudStringInvalidaException("El concepto debe tener entre 10 y 100 caracteres.");
-		}
-		
+		setmConcepto(mConcepto);
 		setmFecha();
-		//Controla a peticion del ejercicio que el importe no sea negativo
-		if (mImporte >= 0) {
-			setmImporte(mImporte);
-		} else {
-			/*Lanza NullPointerException por comodidad, no podia poner un mensaje
-			personalizado si usaba Exception ya que se acababan mezclando y fallaba
-			en compilacion*/
-			throw new NullPointerException("El importe no puede ser menor de 0."); 
-		}
+		setmImporte(mImporte);
 		setIdMovimiento(contador++);
 		setmTipoMovimiento("");
 	}
@@ -69,9 +56,14 @@ public class Movimiento {
 	/**
 	 * Setter atributo mConcepto
 	 * @param mConcepto String
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public void setmConcepto(String mConcepto) {
-		this.mConcepto = mConcepto;
+	public void setmConcepto(String mConcepto) throws LongitudStringInvalidaException {
+		if (Filtro.filtroConceptoMovimiento(mConcepto)) {
+			this.mConcepto = mConcepto;
+		} else {
+			throw new LongitudStringInvalidaException("El concepto debe tener entre 10 y 100 caracteres.");
+		}
 	}
 	
 	/**
@@ -102,7 +94,15 @@ public class Movimiento {
 	 * @param mImporte double
 	 */
 	public void setmImporte(double mImporte) {
-		this.mImporte = mImporte;
+		//Controla a peticion del ejercicio que el importe no sea negativo
+		if (mImporte >= 0) {
+			this.mImporte = mImporte;
+		} else {
+			/*Lanza NullPointerException por comodidad, no podia poner un mensaje
+					personalizado si usaba Exception ya que se acababan mezclando y fallaba
+					en compilacion*/
+			throw new NullPointerException("El importe no puede ser menor de 0."); 
+		}	
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class Movimiento {
 	 * Setter atributo idMovimiento
 	 * @param idMovimiento int
 	 */
-	public void setIdMovimiento(int idMovimiento) {
+	private void setIdMovimiento(int idMovimiento) {
 		this.idMovimiento = idMovimiento;
 	}
 
@@ -134,7 +134,11 @@ public class Movimiento {
 	 * @param mTipoMovimiento String
 	 */
 	public void setmTipoMovimiento(String mTipoMovimiento) {
-		this.mTipoMovimiento = mTipoMovimiento;
+		if (mTipoMovimiento == null) {
+			this.mTipoMovimiento = "";
+		} else {
+			this.mTipoMovimiento = mTipoMovimiento;
+		}
 	}
 
 	

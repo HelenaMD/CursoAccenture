@@ -30,19 +30,15 @@ public class Cuenta {
 		//Inicializo el HashSet con uno vacio para evitar NullPointers
 		setmMovimientos(new HashSet<Movimiento>());
 		setmNumero(mNumero);
-		if (Filtro.filtroNombreTitular(mTitular)) {
-			setmTitular(mTitular);
-		} else {
-			throw new LongitudStringInvalidaException("El nombre del titular debe tener entre 20 y 30 caracteres");
-		}
-		
+		setmTitular(mTitular);
 	}
 
 	/**
 	 * Constructor de copia de la clase, al final no conviene usarlo en este caso
 	 * @param c Cuenta
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public Cuenta(Cuenta c) {
+	public Cuenta(Cuenta c) throws LongitudStringInvalidaException {
 		setmMovimientos(c.getmMovimientos());
 		setmNumero(c.getmNumero());
 		setmTitular(c.getmTitular());
@@ -63,7 +59,11 @@ public class Cuenta {
 	public void setmMovimientos(Set<Movimiento> mMovimientos) {
 		//Creo un nuevo HashSet identico al que se recibe para evitar lios con el
 		// pointer.
-		this.mMovimientos = new HashSet<Movimiento>(mMovimientos);
+		if (mMovimientos == null) {
+			this.mMovimientos = new HashSet<Movimiento>();
+		} else {
+			this.mMovimientos = new HashSet<Movimiento>(mMovimientos);
+		}	
 	}
 	
 	/**
@@ -79,7 +79,11 @@ public class Cuenta {
 	 * @param mNumero String
 	 */
 	public void setmNumero(String mNumero) {
-		this.mNumero = mNumero;
+		if (mNumero == null) {
+			this.mNumero = "";
+		} else {
+			this.mNumero = mNumero;
+		}
 	}
 	
 	/**
@@ -93,9 +97,14 @@ public class Cuenta {
 	/**
 	 * Setter de mTitular
 	 * @param mTitular String
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public void setmTitular(String mTitular) {
-		this.mTitular = mTitular;
+	public void setmTitular(String mTitular) throws LongitudStringInvalidaException {
+		if (Filtro.filtroNombreTitular(mTitular)) {
+			this.mTitular = mTitular;
+		} else {
+			throw new LongitudStringInvalidaException("El nombre del titular debe tener entre 20 y 30 caracteres");
+		}
 	}
 	
 	/**
@@ -136,7 +145,7 @@ public class Cuenta {
 	 */
 	public void ingresar(double importe) throws LongitudStringInvalidaException {
 		Set<Movimiento> aux = getmMovimientos();
-		Movimiento m = new Movimiento("", importe);
+		Movimiento m = new Movimiento("Ingreso a cuenta bancaria desde cajero automatico", importe);
 		m.setmTipoMovimiento("ingreso");
 		aux.add(m);
 		setmMovimientos(aux);
@@ -180,7 +189,7 @@ public class Cuenta {
 		} else {
 			//Mismo procedimiento que en "ingresar"
 			Set<Movimiento> aux = getmMovimientos();
-			Movimiento m = new Movimiento("", importe);
+			Movimiento m = new Movimiento("Retirada de cuenta bancaria desde cajero automatico", importe);
 			m.setmTipoMovimiento("retirada");
 			aux.add(m);
 			setmMovimientos(aux);
