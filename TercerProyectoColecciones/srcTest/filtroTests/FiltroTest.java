@@ -3,6 +3,7 @@ package filtroTests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +19,8 @@ class FiltroTest {
 	final String TITULAR1 = "Este titular es de 21";
 	final String CONCEPTO1 = "Esto es un concepto que debe estar entre 10 y 100 caracteres";
 	final LocalDate FECHA_CAD1 = LocalDate.of(2028, 10, 9);
+	final LocalDate FECHA1 = LocalDate.of(1999, 4, 23);
+	final LocalDate FECHA2 = LocalDate.of(2014, 10, 12);
 	
 	//Datos incorrectos
 	final String TITULAR2 = "A";
@@ -87,5 +90,23 @@ class FiltroTest {
 		assertFalse(Filtro.filtroConceptoMovimiento(CONCEPTO3));
 		assertFalse(Filtro.filtroConceptoMovimiento(CONCEPTO4));
 	}
-
+	
+	@Test
+	void testFechaCorrectaString() {
+		assertNotNull(Filtro.fechaCorrecta("23-04-1999"));
+		assertNotNull(Filtro.fechaCorrecta("12/10/2014"));
+		assertEquals(0, FECHA1.compareTo(Filtro.fechaCorrecta("23-04-1999")));
+		assertEquals(0, FECHA2.compareTo(Filtro.fechaCorrecta("12/10/2014")));
+		assertThrows(IllegalArgumentException.class, () -> Filtro.fechaCorrecta("23!04!1999"),
+				"Se ha tragado una fecha sin el formato adecuado!");
+	}
+	
+	@Test
+	void testFechaCorrectaStringString() {
+		assertNotNull(Filtro.fechaCorrecta("23-*04-*1999", "dd-*MM-*yyyy"));
+		assertEquals(0, FECHA1.compareTo(Filtro.fechaCorrecta("23--04--1999", "dd--MM--yyyy")));
+		assertEquals(0, FECHA2.compareTo(Filtro.fechaCorrecta("12**10*2014", "dd**MM*yyyy")));
+		assertThrows(DateTimeParseException.class, () -> Filtro.fechaCorrecta("12**10*2014", "dd--MM--yyyy"),
+				"Se ha tragado una fecha que no coincide con su formato!");
+	}
 }

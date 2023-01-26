@@ -27,17 +27,13 @@ public abstract class Tarjeta {
 	 * @param mNumero String
 	 * @param mTitular String
 	 * @throws FechaInvalidaException 
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public Tarjeta(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) throws FechaInvalidaException {
+	public Tarjeta(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) throws FechaInvalidaException, LongitudStringInvalidaException {
 		/*Cuando creas la tarjeta no recibes los datos de la cuenta asociada
 		 * por lo que he de inicializarlo con un null*/
 		setmCuentaAsociada(null);
-		if (Filtro.filtroFechaCaducidad(mFechaDeCaducidad)) {
-			setmFechaDeCaducidad(mFechaDeCaducidad);
-		} else {
-			throw new FechaInvalidaException("La fecha de caducidad debe estar entre 3 y 5 anios en el futuro.");
-		}
-		
+		setmFechaDeCaducidad(mFechaDeCaducidad);
 		setmNumero(mNumero);
 		setmTitular(mTitular);
 	}
@@ -86,10 +82,20 @@ public abstract class Tarjeta {
 	/**
 	 * Setter de mFechaDeCaducidad
 	 * @param mFechaDeCaducidad LocalDate
+	 * @throws FechaInvalidaException 
 	 */
-	public void setmFechaDeCaducidad(LocalDate mFechaDeCaducidad) {
+	public void setmFechaDeCaducidad(LocalDate mFechaDeCaducidad) throws FechaInvalidaException {
 		//Creo un LocalDate nuevo con los datos del LocalDate recibido para evitar problemas con el puntero
-		this.mFechaDeCaducidad = LocalDate.of(mFechaDeCaducidad.getYear(), mFechaDeCaducidad.getMonth(), mFechaDeCaducidad.getDayOfMonth());
+		if (mFechaDeCaducidad != null) {
+			if (Filtro.filtroFechaCaducidad(mFechaDeCaducidad)) {
+				this.mFechaDeCaducidad = LocalDate.of(mFechaDeCaducidad.getYear(), mFechaDeCaducidad.getMonth(), mFechaDeCaducidad.getDayOfMonth());
+			} else {
+				throw new FechaInvalidaException("La fecha de caducidad debe estar entre 3 y 5 anios en el futuro.");
+			}
+		} else {
+			throw new FechaInvalidaException("La fecha de caducidad no puede estar vacía.");
+		}
+		
 	}
 
 	/**
@@ -105,7 +111,11 @@ public abstract class Tarjeta {
 	 * @param mNumero String
 	 */
 	public void setmNumero(String mNumero) {
-		this.mNumero = mNumero;
+		if (mNumero == null) {
+			this.mNumero = "";
+		} else {
+			this.mNumero = mNumero;
+		}
 	}
 
 	/**
@@ -119,9 +129,14 @@ public abstract class Tarjeta {
 	/**
 	 * Setter de mTitular
 	 * @param mTitular String
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public void setmTitular(String mTitular) {
-		this.mTitular = mTitular;
+	public void setmTitular(String mTitular) throws LongitudStringInvalidaException {
+		if (Filtro.filtroNombreTitular(mTitular)) {
+			this.mTitular = mTitular;
+		} else {
+			throw new LongitudStringInvalidaException("El nombre del titular debe tener entre 20 y 30 caracteres");
+		}
 	}
 
 	/**

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import clasesExcepciones.FechaInvalidaException;
 import clasesExcepciones.LongitudStringInvalidaException;
@@ -29,8 +30,9 @@ public class Credito extends Tarjeta {
 	 * @param mNumero String
 	 * @param mTitular String
 	 * @throws FechaInvalidaException 
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public Credito(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) throws FechaInvalidaException {
+	public Credito(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) throws FechaInvalidaException, LongitudStringInvalidaException {
 		super(mFechaDeCaducidad, mNumero, mTitular);
 		//Credito inicial a 0, no lo piden
 		setmCredito(0);
@@ -208,7 +210,7 @@ public class Credito extends Tarjeta {
 			// poder acceder a sus datos
 			mAux = it.next();
 			//Compruebo el mes y el anio del movimiento en el que estoy
-			if (mAux.getmFecha().getMonthValue() == mes && mAux.getmFecha().getYear() == anio) {
+			if (compareMovementMonthYear(mes, anio, mAux)) {
 				//Si coincide el mes y anio, lo aniado al HashSet auxiliar "selectedMovements"
 				selectedMovements.add(mAux);
 				//Lo elimino del HashSet original de la clase
@@ -234,6 +236,23 @@ public class Credito extends Tarjeta {
 			}
 		}
 		
+		//Transfiero la liquidacion a la cuenta asociada
+		transferirLiquidacion(mes, anio, resultado);
+	}
+
+	/**
+	 * Metodo que recibe un mes, un anio y un resultado numerico (importe) y
+	 * dependiendo de si el importe es negativo o positivo resta o suma a la cuenta
+	 * asociada y le aniade un movimiento
+	 * @param mes int
+	 * @param anio int
+	 * @param resultado double
+	 * @throws LongitudStringInvalidaException
+	 */
+	public void transferirLiquidacion(int mes, int anio, double resultado) throws LongitudStringInvalidaException {
+		//Variables auxiliares
+		Set<Movimiento> aux;
+		Movimiento mAux;
 		//Guardo en aux el HashSet de la cuenta asociada a la tarjeta Credito
 		aux = new HashSet<Movimiento>(getmCuentaAsociada().getmMovimientos());
 		//Si el resultado es negativo se hace un movimiento de retirada
@@ -252,6 +271,53 @@ public class Credito extends Tarjeta {
 		aux.add(mAux);
 		//Actualiza el HashSet a la cuenta.
 		getmCuentaAsociada().setmMovimientos(aux);
+	}
+
+	/**
+	 * Compara el mes y anio recibidos con el mes y anio del movimiento recibido
+	 * @param mes int
+	 * @param anio int
+	 * @param mAux Movimiento
+	 * @return boolean
+	 */
+	public boolean compareMovementMonthYear(int mes, int anio, Movimiento mAux) {
+		return mAux.getmFecha().getMonthValue() == mes && mAux.getmFecha().getYear() == anio;
+	}
+	
+	/**
+	 * Metodo liquidar hecho con Streams
+	 * @param mes int
+	 * @param anio int
+	 * @throws LongitudStringInvalidaException
+	 */
+	public void liquidarStream(int mes, int anio) throws LongitudStringInvalidaException {
+		//Mismo procedimiento adaptado a Streams
+		
+		//Primero elijo los movimientos que necesito y los guardo en "selectedMovements"
+		Set<Movimiento> selectedMovements = getmMovimientos().stream()
+				.filter(m -> compareMovementMonthYear(mes, anio, m))
+				.collect(Collectors.toSet());
+		
+		//Borro de los movimientos de la tarjeta los movimientos que he guardado aparte
+		getmMovimientos().removeAll(selectedMovements);
+		
+		//Sumo el total de ingresos que hay en el mes
+		double resultadoIngresos = selectedMovements.stream()
+				.filter(m -> m.getmTipoMovimiento().equalsIgnoreCase("ingreso"))
+				.mapToDouble(m -> m.getmImporte())
+				.sum();
+		
+		//Sumo el total de retiradas que hay en el mes
+		double resultadoRetiradas = selectedMovements.stream()
+				.filter(m -> m.getmTipoMovimiento().equalsIgnoreCase("retirada"))
+				.mapToDouble(m -> m.getmImporte())
+				.sum();
+		
+		//Resto retiradas a ingresos y me queda el resultado final
+		double resultado = resultadoIngresos - resultadoRetiradas;
+		
+		//Transfiero la liquidacion a la cuenta
+		transferirLiquidacion(mes, anio, resultado);
 	}
 	
 	/**

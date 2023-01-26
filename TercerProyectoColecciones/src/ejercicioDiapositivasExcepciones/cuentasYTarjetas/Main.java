@@ -56,7 +56,7 @@ public class Main {
 			System.out.println("Credito tras operar --------------------------------------");
 			System.out.println(credito1.toString());
 			
-			credito1.liquidar(1, 2023);
+			credito1.liquidarStream(1, 2023);
 			
 			System.out.println("Estado de todo tras liquidar credito --------------------------------------");
 			System.out.println(cuenta1.toString());

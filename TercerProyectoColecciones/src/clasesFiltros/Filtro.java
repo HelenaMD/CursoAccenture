@@ -1,6 +1,7 @@
 package clasesFiltros;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Clase que contiene filtros para usar en nuestros programas
@@ -57,5 +58,47 @@ public class Filtro {
 	 */
 	public static boolean filtroConceptoMovimiento(String concepto) {
 		return filtroString(concepto, 10, 100);
+	}
+	
+	/**
+	 * Metodo que recibe una fecha y la devuelve en formato por defecto de
+	 * "dd-MM-yyyy"
+	 * @param fecha String
+	 * @return
+	 */
+	public static LocalDate fechaCorrecta(String fecha) {
+		//No he sido capaz de guardar los dos patrones en el mismo formatter
+		DateTimeFormatter format1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		DateTimeFormatter format2 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		//Por eso mismo he tenido que hacer dos comprobaciones distintas para
+		// cada formato
+		if (fecha.matches("[0-9]{2}-[0-9]{2}-[0-9]{4}")) {
+			return LocalDate.parse(fecha, format1);
+		} else if (fecha.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")){
+			return LocalDate.parse(fecha, format2);
+		} else {
+			throw new IllegalArgumentException("La fecha que has pasado no esta bien escrita");
+		}
+	}
+	
+	
+	/**
+	 * Metodo que recibe una fecha en String junto con un patron de fecha
+	 * y devuelve un LocalDate con la fecha formada
+	 * @param fecha
+	 * @param patron
+	 * @return
+	 */
+	public static LocalDate fechaCorrecta(String fecha, String patron) {
+		/*No hay forma de extraer un regexp de un patron que no conozco
+		 * y no puedo hacer un matches() porque el patron de fecha no es un regexp
+		 * y daria error.
+		 * No tengo forma de comprobar si la fecha que pasa el usuario se ajusta
+		 * al patron
+		 * Y si hay forma, no la veo ahora.
+		 * La idea es controlar el DateTimeParseException que puede dar desde un trycatch*/
+		DateTimeFormatter format = DateTimeFormatter.ofPattern(patron);
+		
+		return LocalDate.parse(fecha, format);
 	}
 }

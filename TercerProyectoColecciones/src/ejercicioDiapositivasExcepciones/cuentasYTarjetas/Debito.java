@@ -18,8 +18,9 @@ public class Debito extends Tarjeta {
 	 * @param mNumero String
 	 * @param mTitular String
 	 * @throws FechaInvalidaException 
+	 * @throws LongitudStringInvalidaException 
 	 */
-	public Debito(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) throws FechaInvalidaException {
+	public Debito(LocalDate mFechaDeCaducidad, String mNumero, String mTitular) throws FechaInvalidaException, LongitudStringInvalidaException {
 		super(mFechaDeCaducidad, mNumero, mTitular);
 		// TODO Auto-generated constructor stub
 	}
