@@ -12,8 +12,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import clasesFiltros.Filtro;
-
 public class StreamExperimentosYPruebas {
 
 	public static void main(String[] args) throws IOException {

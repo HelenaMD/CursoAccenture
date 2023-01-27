@@ -1,4 +1,4 @@
-package ejercicioDiapositivasExcepciones.cuentasYTarjetas;
+package bancoClases;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import clasesExcepciones.FechaInvalidaException;
-import clasesExcepciones.LongitudStringInvalidaException;
+import excepcionesClases.FechaInvalidaException;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase Credito que hereda de Tarjeta

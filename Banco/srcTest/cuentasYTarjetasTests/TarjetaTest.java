@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import clasesExcepciones.FechaInvalidaException;
-import clasesExcepciones.LongitudStringInvalidaException;
+import excepcionesClases.FechaInvalidaException;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase de prueba para probar la clase Tarjeta

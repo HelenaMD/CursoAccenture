@@ -1,4 +1,4 @@
-package clasesExcepciones;
+package excepcionesClases;
 
 public class FechaInvalidaException extends Exception {
 

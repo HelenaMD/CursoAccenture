@@ -1,10 +1,10 @@
-package ejercicioDiapositivasExcepciones.cuentasYTarjetas;
+package bancoClases;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import clasesExcepciones.LongitudStringInvalidaException;
-import clasesFiltros.Filtro;
+import excepcionesClases.LongitudStringInvalidaException;
+import filtroClases.Filtro;
 
 /**
  * Clase Cuenta

@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import clasesExcepciones.FechaInvalidaException;
-import clasesExcepciones.LongitudStringInvalidaException;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Debito;
+import bancoClases.Debito;
+import excepcionesClases.FechaInvalidaException;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase para probar Debito

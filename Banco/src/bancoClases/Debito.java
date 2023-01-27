@@ -1,9 +1,9 @@
-package ejercicioDiapositivasExcepciones.cuentasYTarjetas;
+package bancoClases;
 
 import java.time.LocalDate;
 
-import clasesExcepciones.FechaInvalidaException;
-import clasesExcepciones.LongitudStringInvalidaException;
+import excepcionesClases.FechaInvalidaException;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase Debito que hereda de Tarjeta

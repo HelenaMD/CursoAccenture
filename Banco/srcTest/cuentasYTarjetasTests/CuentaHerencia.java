@@ -2,9 +2,9 @@ package cuentasYTarjetasTests;
 
 import java.util.Set;
 
-import clasesExcepciones.LongitudStringInvalidaException;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Cuenta;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Movimiento;
+import bancoClases.Cuenta;
+import bancoClases.Movimiento;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase creada especialmente para las pruebas JUnit al necesitar devolver

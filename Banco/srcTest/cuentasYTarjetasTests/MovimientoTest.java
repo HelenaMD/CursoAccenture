@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import clasesExcepciones.LongitudStringInvalidaException;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Movimiento;
+import bancoClases.Movimiento;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase para probar Movimiento

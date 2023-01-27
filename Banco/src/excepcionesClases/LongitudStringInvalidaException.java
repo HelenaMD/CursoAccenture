@@ -1,4 +1,4 @@
-package clasesExcepciones;
+package excepcionesClases;
 
 /**
  * Clase con mi propia excepcion

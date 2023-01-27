@@ -1,9 +1,9 @@
-package ejercicioDiapositivasExcepciones.cuentasYTarjetas;
+package bancoClases;
 
 import java.time.LocalDate;
 
-import clasesExcepciones.LongitudStringInvalidaException;
-import clasesFiltros.Filtro;
+import excepcionesClases.LongitudStringInvalidaException;
+import filtroClases.Filtro;
 
 /**
  * Clase Movimiento que contiene los datos de un movimiento bancario

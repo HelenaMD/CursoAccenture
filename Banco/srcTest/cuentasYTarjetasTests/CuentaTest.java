@@ -9,9 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import clasesExcepciones.LongitudStringInvalidaException;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Cuenta;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Movimiento;
+import bancoClases.Cuenta;
+import bancoClases.Movimiento;
+import excepcionesClases.LongitudStringInvalidaException;
 
 /**
  * Clase que prueba la clase Cuenta a traves de una clase hija CuentaHerencia por

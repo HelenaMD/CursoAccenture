@@ -2,9 +2,9 @@ package cuentasYTarjetasTests;
 
 import java.time.LocalDate;
 
-import clasesExcepciones.FechaInvalidaException;
-import clasesExcepciones.LongitudStringInvalidaException;
-import ejercicioDiapositivasExcepciones.cuentasYTarjetas.Debito;
+import bancoClases.Debito;
+import excepcionesClases.FechaInvalidaException;
+import excepcionesClases.LongitudStringInvalidaException;
 
 public class DebitoHerencia extends TarjetaHerencia {
 

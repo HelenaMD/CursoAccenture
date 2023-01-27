@@ -1,10 +1,10 @@
-package ejercicioDiapositivasExcepciones.cuentasYTarjetas;
+package bancoClases;
 
 import java.time.LocalDate;
 
-import clasesExcepciones.FechaInvalidaException;
-import clasesExcepciones.LongitudStringInvalidaException;
-import clasesFiltros.Filtro;
+import excepcionesClases.FechaInvalidaException;
+import excepcionesClases.LongitudStringInvalidaException;
+import filtroClases.Filtro;
 
 /**
  * Clase padre abstracta Tarjeta
