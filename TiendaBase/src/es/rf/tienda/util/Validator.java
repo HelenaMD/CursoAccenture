@@ -77,9 +77,9 @@ public class Validator {
 	
 	public static boolean isVacio(String prueba){
 		if (comprobarNulo(prueba) && !prueba.equalsIgnoreCase("")) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/** ***************************************************************************************
@@ -103,7 +103,7 @@ public class Validator {
 		if (comprobarNulo(phoneNumber) && //Si el string no es nulo y cumple con la longitud entre los valores pedidos
 				cumpleLongitud(phoneNumber, 10, 20) && // y encaja con la longitud pedida
 				phoneNumber.matches(PHONE_PATTERN) &&  // y encaja con el patron de telefono
-				cumpleLongitudMax(phoneNumber.replaceAll(" ", ""), 10)) { //Y encaja en la longitud de digitos
+				cumpleLongitudMin(phoneNumber.replaceAll(" ", ""), 10)) { //Y encaja en la longitud de digitos
 			return true; //Devuelve true
 		}
 		//Si falla alguna condicion devuelve false
@@ -154,7 +154,8 @@ public class Validator {
 		 * entonces devuelve true*/
 		if (comprobarNulo(dni) && dni.matches(DNI_PATTERN) && LETRA_DNI.contains(
 				String.valueOf(
-						dni.charAt(dni.length()-1)))) {
+						dni.charAt(dni.length()-1))) &&
+				dni.length() == LONGITUD_DNI) {
 			return true;
 		}
 		return false;

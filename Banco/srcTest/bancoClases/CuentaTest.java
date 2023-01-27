@@ -1,4 +1,4 @@
-package cuentasYTarjetasTests;
+package bancoClases;
 
 import static org.junit.jupiter.api.Assertions.*;
 
