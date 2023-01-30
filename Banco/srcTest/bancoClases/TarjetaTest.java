@@ -21,16 +21,21 @@ class TarjetaTest {
 	 * de CuentaHerencia y TarjetaHerencia*/
 	static final LocalDate FECHA_CAD = LocalDate.of(2026, 1, 26);
 	static CuentaHerencia c;
-	static final String NUMERO_TARJETA = "ES00-1122-3344-5566-7788";
-	static final String NOMBRE_TITULAR = "Helena Martinez Duro";
+	static final String[] NUMERO_TARJETA = {"ES00-1122-3344-5566-7788", "Pruebita de numero de tarjeta"};
+	static final String[] NOMBRE_TITULAR = {"Helena Martinez Duro", "ALVARO MARTIN RAMOSS"};
+	static final String[] NUMERO_CUENTA = {"IBAN-0011-2233-4455-6677", "9999999999999"};
+	static final String TITULAR_INCORRECTO = "UwU";
+	static final String[] ERROR_MESSAGE = {"La tarjeta se ha tragado una fecha de caducidad nula!!", "La tarjeta se ha tragado una fecha de caducidad fuera de limites!!", "Se ha tragado un titular fuera de limites!!"};
+	static final LocalDate FECHA_CADUCIDAD = LocalDate.of(2028, 11, 8);
+	static final LocalDate FECHA_ACTUAL = LocalDate.now();
 	static TarjetaHerencia t;
 	
 	/*Preparo una instancia de TarjetaHerencia (la clase original es abstracta pero
 	 * para probar sus clases con codigo necesito instanciarla)*/
 	@BeforeEach
 	void crearTarjeta() throws FechaInvalidaException, LongitudStringInvalidaException {
-		c = new CuentaHerencia("IBAN-0011-2233-4455-6677", "Helena Martinez Duro");
-		t = new TarjetaHerencia(FECHA_CAD, NUMERO_TARJETA, NOMBRE_TITULAR);
+		c = new CuentaHerencia(NUMERO_CUENTA[0], NOMBRE_TITULAR[0]);
+		t = new TarjetaHerencia(FECHA_CAD, NUMERO_TARJETA[0], NOMBRE_TITULAR[0]);
 		t.setmCuentaAsociada(c);
 	}
 
@@ -43,22 +48,22 @@ class TarjetaTest {
 		//Le vuelvo a asignar la cuenta predefinida y compruebo que llegan los datos
 		t.setmCuentaAsociada(c);
 		assertNotNull(t.getmCuentaAsociada());
-		assertEquals("IBAN-0011-2233-4455-6677", t.getmCuentaAsociada().getmNumero());
-		assertEquals("Helena Martinez Duro", t.getmCuentaAsociada().getmTitular());
+		assertEquals(NUMERO_CUENTA[0], t.getmCuentaAsociada().getmNumero());
+		assertEquals(NOMBRE_TITULAR[0], t.getmCuentaAsociada().getmTitular());
 		//Cambio directamente datos a la cuenta y compruebo que desde tarjeta
 		// se ven los cambios
-		c.setmNumero("9999999999999");
-		c.setmTitular("ALVARO MARTIN RAMOSS");
-		assertEquals("9999999999999", t.getmCuentaAsociada().getmNumero());
-		assertEquals("ALVARO MARTIN RAMOSS", t.getmCuentaAsociada().getmTitular());
+		c.setmNumero(NUMERO_CUENTA[1]);
+		c.setmTitular(NOMBRE_TITULAR[1]);
+		assertEquals(NUMERO_CUENTA[1], t.getmCuentaAsociada().getmNumero());
+		assertEquals(NOMBRE_TITULAR[1], t.getmCuentaAsociada().getmTitular());
 	}
 
 	@Test
 	void testGetmCuentaAsociada() {
 		//Compruebo que no devuelve null y que los datos son los esperados
 		assertNotNull(t.getmCuentaAsociada());
-		assertEquals("IBAN-0011-2233-4455-6677", t.getmCuentaAsociada().getmNumero());
-		assertEquals("Helena Martinez Duro", t.getmCuentaAsociada().getmTitular());
+		assertEquals(NUMERO_CUENTA[0], t.getmCuentaAsociada().getmNumero());
+		assertEquals(NOMBRE_TITULAR[0], t.getmCuentaAsociada().getmTitular());
 	}
 
 	@Test
@@ -73,11 +78,11 @@ class TarjetaTest {
 		LocalDate aux = t.getmFechaDeCaducidad();
 		//Compruebo que si pasas null o fecha fuera de limites da excepcion
 		assertThrows(FechaInvalidaException.class, () -> t.setmFechaDeCaducidad(null),
-				"La tarjeta se ha tragado una fecha de caducidad nula!!");
-		assertThrows(FechaInvalidaException.class, () -> t.setmFechaDeCaducidad(LocalDate.now()),
-				"La tarjeta se ha tragado una fecha de caducidad fuera de limites!!");
+				ERROR_MESSAGE[0]);
+		assertThrows(FechaInvalidaException.class, () -> t.setmFechaDeCaducidad(FECHA_ACTUAL),
+				ERROR_MESSAGE[1]);
 		//Compruebo que si le pongo otra fecha valida la coge y es distinta a la que tenia
-		t.setmFechaDeCaducidad(LocalDate.of(2028, 11, 8));
+		t.setmFechaDeCaducidad(FECHA_CADUCIDAD);
 		assertNotEquals(0, aux.compareTo(t.getmFechaDeCaducidad()));
 	}
 
@@ -85,7 +90,7 @@ class TarjetaTest {
 	void testGetmNumero() {
 		//Compruebo que no devuelve nulo y que los datos son los esperados
 		assertNotNull(t.getmNumero());
-		assertEquals(NUMERO_TARJETA, t.getmNumero());
+		assertEquals(NUMERO_TARJETA[0], t.getmNumero());
 	}
 
 	@Test
@@ -94,27 +99,27 @@ class TarjetaTest {
 		t.setmNumero(null);
 		assertNotNull(t.getmNumero());
 		//Compruebo que guarda los datos que le paso
-		t.setmNumero("Pruebita de numero de tarjeta");
-		assertEquals("Pruebita de numero de tarjeta", t.getmNumero());
+		t.setmNumero(NUMERO_TARJETA[1]);
+		assertEquals(NUMERO_TARJETA[1], t.getmNumero());
 	}
 
 	@Test
 	void testGetmTitular() {
 		//Compruebo que no devuelve nulo y que los datos son los esperados
 		assertNotNull(t.getmTitular());
-		assertEquals(NOMBRE_TITULAR, t.getmTitular());
+		assertEquals(NOMBRE_TITULAR[0], t.getmTitular());
 	}
 
 	@Test
 	void testSetmTitular() throws LongitudStringInvalidaException {
 		//Pruebo a cambiar el valor del dato y compruebo que se ha cambiado 2 veces
-		t.setmTitular("Alvaro Martin Ramoss");
-		assertNotEquals(NOMBRE_TITULAR, t.getmTitular());
-		t.setmTitular(NOMBRE_TITULAR);
-		assertEquals(NOMBRE_TITULAR, t.getmTitular());
+		t.setmTitular(NOMBRE_TITULAR[1]);
+		assertNotEquals(NOMBRE_TITULAR[0], t.getmTitular());
+		t.setmTitular(NOMBRE_TITULAR[0]);
+		assertEquals(NOMBRE_TITULAR[0], t.getmTitular());
 		//Compruebo que me da error cuando le paso concepto fuera de limites
-		assertThrows(LongitudStringInvalidaException.class, () ->  t.setmTitular("UwU"),
-				"Se ha tragado un titular fuera de limites!!");
+		assertThrows(LongitudStringInvalidaException.class, () ->  t.setmTitular(TITULAR_INCORRECTO),
+				ERROR_MESSAGE[2]);
 	}
 
 	@Test

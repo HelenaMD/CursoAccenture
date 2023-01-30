@@ -24,28 +24,34 @@ class CuentaTest {
 	/*Datos con los que voy a probar*/
 	static Set<Movimiento> setMov;
 	static CuentaHerencia c;
-	static String numeroCuenta = "IBAN-0011-2233-4455-6677";
-	static String titularCuenta = "Helena Martinez Duro";
+	static final String NUMERO_CUENTA = "IBAN-0011-2233-4455-6677";
+	static final String[] TITULAR_CUENTA = {"Helena Martinez Duro", "Alvaro Martin Ramoss"};
+	static final String TITULAR_INCORRECTO = "UwU";
+	static final String PRUEBA_NUM_CUENTA = "ESTO ES UNA PRUEBA DE NUMERO DE CUENTA";
+	static final String[] CONCEPTOS = {"Primer Mov con Concepto que se acepta y pasa el filtro.", "Segundo Mov con Concepto que se acepta y pasa el filtro.", "Tercer Mov con Concepto que se acepta y pasa el filtro.", "Cuarto Mov con Concepto que se acepta y pasa el filtro.", "Ingreso a cuenta bancaria desde cajero automatico", "Retirada de cuenta bancaria desde cajero automatico"};
+	static final double[] IMPORTES = {1450.60, 2900.99, 2900.99, 400.70, 1000};
+	static final String[] TIPO_MOVIMIENTO = {"ingreso", "retirada"};
+	static final String ERROR_MESSAGE = "Se ha tragado un titular fuera de limites!!";
 	
 	/*Preparo una tanda de Movimientos por defecto*/
 	@BeforeAll
 	static void setMovimientos() throws LongitudStringInvalidaException {
 		setMov = new HashSet<Movimiento>();
-		setMov.add(prepare(new Movimiento("Primer Mov con Concepto que se acepta y pasa el filtro.", 1450.60)));
-		setMov.add(prepare(new Movimiento("Segundo Mov con Concepto que se acepta y pasa el filtro.", 2900.99)));
-		setMov.add(prepare(new Movimiento("Tercer Mov con Concepto que se acepta y pasa el filtro.", 2900.99)));
+		setMov.add(prepare(new Movimiento(CONCEPTOS[0], IMPORTES[0])));
+		setMov.add(prepare(new Movimiento(CONCEPTOS[1], IMPORTES[1])));
+		setMov.add(prepare(new Movimiento(CONCEPTOS[2], IMPORTES[2])));
 	}
 	
 	/*Uso interno para que los movimientos se puedan contabilizar despues*/
 	static Movimiento prepare(Movimiento m) {
-		m.setmTipoMovimiento("ingreso");
+		m.setmTipoMovimiento(TIPO_MOVIMIENTO[0]);
 		return m;
 	}
 	
 	/*Creo un objeto antes de testear cada metodo*/
 	@BeforeEach
 	void crearCuenta() throws LongitudStringInvalidaException {
-		c = new CuentaHerencia(numeroCuenta, titularCuenta);
+		c = new CuentaHerencia(NUMERO_CUENTA, TITULAR_CUENTA[0]);
 		c.setmMovimientos(setMov);
 	}
 
@@ -53,12 +59,12 @@ class CuentaTest {
 	@Test
 	void testCuentaStringString() throws LongitudStringInvalidaException {
 		//Creo otro objeto auxiliar con los mismos valores
-		Cuenta cAux = new Cuenta(numeroCuenta, titularCuenta);
+		Cuenta cAux = new Cuenta(NUMERO_CUENTA, TITULAR_CUENTA[0]);
 		//Compruebo que no es un nulo
 		assertNotNull(cAux);
 		//Comparo datos para ver si se asignaron
-		assertEquals(numeroCuenta, cAux.getmNumero());
-		assertEquals(titularCuenta, cAux.getmTitular());
+		assertEquals(NUMERO_CUENTA, cAux.getmNumero());
+		assertEquals(TITULAR_CUENTA[0], cAux.getmTitular());
 	}
 
 	@Test
@@ -68,8 +74,8 @@ class CuentaTest {
 		//Compruebo que no es un nulo
 		assertNotNull(cAux);
 		//Comparo datos para ver si se asignaron
-		assertEquals(numeroCuenta, cAux.getmNumero());
-		assertEquals(titularCuenta, cAux.getmTitular());
+		assertEquals(NUMERO_CUENTA, cAux.getmNumero());
+		assertEquals(TITULAR_CUENTA[0], cAux.getmTitular());
 	}
 
 	@Test
@@ -96,18 +102,18 @@ class CuentaTest {
 	void testGetmNumero() {
 		//Compruebo que no es nulo y que me devuelve el dato correcto
 		assertNotNull(c.getmNumero());
-		assertEquals(numeroCuenta, c.getmNumero());
+		assertEquals(NUMERO_CUENTA, c.getmNumero());
 	}
 
 	@Test
 	void testSetmNumero() {
 		//Compruebo que guarda lo que le paso
-		c.setmNumero("ESTO ES UNA PRUEBA DE NUMERO DE CUENTA");;
+		c.setmNumero(PRUEBA_NUM_CUENTA);;
 		assertNotNull(c.getmMovimientos());
-		assertNotEquals(numeroCuenta, c.getmNumero());
+		assertNotEquals(NUMERO_CUENTA, c.getmNumero());
 		//Lo vuelvo a comprobar
-		c.setmNumero(numeroCuenta);
-		assertEquals(numeroCuenta, c.getmNumero());
+		c.setmNumero(NUMERO_CUENTA);
+		assertEquals(NUMERO_CUENTA, c.getmNumero());
 		//Si le pasamos nulo sigue teniendo un String vacio
 		c.setmNumero(null);
 		assertNotNull(c.getmNumero());
@@ -117,25 +123,25 @@ class CuentaTest {
 	void testGetmTitular() {
 		//Compruebo que no es nulo y que me devuelve el dato correcto
 		assertNotNull(c.getmTitular());
-		assertEquals(titularCuenta, c.getmTitular());
+		assertEquals(TITULAR_CUENTA[0], c.getmTitular());
 	}
 
 	@Test
 	void testSetmTitular() throws LongitudStringInvalidaException {
 		//Pruebo a cambiar el valor del dato y compruebo que se ha cambiado 2 veces
-		c.setmTitular("Alvaro Martin Ramoss");
-		assertNotEquals(titularCuenta, c.getmTitular());
-		c.setmTitular(titularCuenta);
-		assertEquals(titularCuenta, c.getmTitular());
+		c.setmTitular(TITULAR_CUENTA[1]);
+		assertNotEquals(TITULAR_CUENTA[0], c.getmTitular());
+		c.setmTitular(TITULAR_CUENTA[0]);
+		assertEquals(TITULAR_CUENTA[0], c.getmTitular());
 		//Compruebo que me da error cuando le paso concepto fuera de limites
-		assertThrows(LongitudStringInvalidaException.class, () ->  c.setmTitular("UwU"),
-				"Se ha tragado un titular fuera de limites!!");
+		assertThrows(LongitudStringInvalidaException.class, () ->  c.setmTitular(TITULAR_INCORRECTO),
+				ERROR_MESSAGE);
 	}
 
 	@Test
 	void testAddMovimiento() throws LongitudStringInvalidaException {
 		//Compruebo que se aniade un movimiento, pasan a ser 4 elementos
-		c.addMovimiento(new Movimiento("Cuarto Mov con Concepto que se acepta y pasa el filtro.", 400.70));
+		c.addMovimiento(new Movimiento(CONCEPTOS[3], IMPORTES[3]));
 		assertEquals(4, c.getmMovimientos().size());
 	}
 
@@ -146,11 +152,11 @@ class CuentaTest {
 		 * tiene orden) para comprobar que internamente se le aniadio el tipo
 		 * de movimiento "ingreso"*/
 		Movimiento mLast;
-		mLast = c.ingresarH("Cuarto Mov con Concepto que se acepta y pasa el filtro.", 400.70);
+		mLast = c.ingresarH(CONCEPTOS[3], IMPORTES[3]);
 		assertEquals(4, c.getmMovimientos().size());
-		assertEquals("Cuarto Mov con Concepto que se acepta y pasa el filtro.", mLast.getmConcepto());
-		assertEquals(400.70, mLast.getmImporte());
-		assertEquals("ingreso", mLast.getmTipoMovimiento());
+		assertEquals(CONCEPTOS[3], mLast.getmConcepto());
+		assertEquals(IMPORTES[3], mLast.getmImporte());
+		assertEquals(TIPO_MOVIMIENTO[0], mLast.getmTipoMovimiento());
 	}
 
 	@Test
@@ -160,11 +166,11 @@ class CuentaTest {
 		 * tiene orden) para comprobar que internamente se le aniadio el tipo
 		 * de movimiento "ingreso" y el concepto por defecto*/
 		Movimiento mLast;
-		mLast = c.ingresarH(400.70);
+		mLast = c.ingresarH(IMPORTES[3]);
 		assertEquals(4, c.getmMovimientos().size());
-		assertEquals("Ingreso a cuenta bancaria desde cajero automatico", mLast.getmConcepto());
-		assertEquals(400.70, mLast.getmImporte());
-		assertEquals("ingreso", mLast.getmTipoMovimiento());
+		assertEquals(CONCEPTOS[4], mLast.getmConcepto());
+		assertEquals(IMPORTES[3], mLast.getmImporte());
+		assertEquals(TIPO_MOVIMIENTO[0], mLast.getmTipoMovimiento());
 	}
 
 	@Test
@@ -174,11 +180,11 @@ class CuentaTest {
 		 * tiene orden) para comprobar que internamente se le aniadio el tipo
 		 * de movimiento "retirada"*/
 		Movimiento mLast;
-		mLast = c.retirarH("Cuarto Mov con Concepto que se acepta y pasa el filtro.", 400.70);
+		mLast = c.retirarH(CONCEPTOS[3], IMPORTES[3]);
 		assertEquals(4, c.getmMovimientos().size());
-		assertEquals("Cuarto Mov con Concepto que se acepta y pasa el filtro.", mLast.getmConcepto());
-		assertEquals(400.70, mLast.getmImporte());
-		assertEquals("retirada", mLast.getmTipoMovimiento());
+		assertEquals(CONCEPTOS[3], mLast.getmConcepto());
+		assertEquals(IMPORTES[3], mLast.getmImporte());
+		assertEquals(TIPO_MOVIMIENTO[1], mLast.getmTipoMovimiento());
 	}
 
 	@Test
@@ -188,20 +194,20 @@ class CuentaTest {
 		 * tiene orden) para comprobar que internamente se le aniadio el tipo
 		 * de movimiento "retirada" y el concepto por defecto*/
 		Movimiento mLast;
-		mLast = c.retirarH(400.70);
+		mLast = c.retirarH(IMPORTES[3]);
 		assertEquals(4, c.getmMovimientos().size());
-		assertEquals("Retirada de cuenta bancaria desde cajero automatico", mLast.getmConcepto());
-		assertEquals(400.70, mLast.getmImporte());
-		assertEquals("retirada", mLast.getmTipoMovimiento());
+		assertEquals(CONCEPTOS[5], mLast.getmConcepto());
+		assertEquals(IMPORTES[3], mLast.getmImporte());
+		assertEquals(TIPO_MOVIMIENTO[1], mLast.getmTipoMovimiento());
 	}
 
 	@Test
 	void testGetmSaldo() throws LongitudStringInvalidaException {
 		/*Compruebo que suma los valores de los movimientos de ingreso
 		 * y que resta los valores de los movimientos retirada*/
-		assertEquals(1450.60 + 2900.99 + 2900.99, c.getmSaldo());
-		c.retirar(1000);
-		assertEquals(1450.60 + 2900.99 + 2900.99 - 1000, c.getmSaldo());
+		assertEquals(IMPORTES[0] + IMPORTES[1] + IMPORTES[2], c.getmSaldo());
+		c.retirar(IMPORTES[4]);
+		assertEquals(IMPORTES[0] + IMPORTES[1] + IMPORTES[2] - IMPORTES[4], c.getmSaldo());
 	}
 
 	@Test

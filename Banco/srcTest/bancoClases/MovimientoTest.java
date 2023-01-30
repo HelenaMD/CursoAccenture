@@ -18,26 +18,29 @@ import excepcionesClases.LongitudStringInvalidaException;
 class MovimientoTest {
 	
 	/*Un objeto movimiento y unas finales con un concepto y un importe para comparar*/
-	Movimiento movOk;
-	final String concepto = "Concepto que se acepta y pasa el filtro.";
-	final double importe = 1450.60;
+	static Movimiento movOk;
+	static final String[] CONCEPTO = {"Concepto que se acepta y pasa el filtro.", "Otro concepto igual de valido que el otro.", "Pruebita de setter desde el test"};
+	static final String CONCEPTO_INCORRECTO = "";
+	static final double[] IMPORTE = {1450.60, 1005};
+	static final String[] ERROR_MESSAGE = {"Se ha tragado el concepto sin letras!!!", "Se ha tragado un concepto fuera de limites!!", "La fecha del movimiento no puede ser una fecha por llegar!", "La fecha tiene que ser la actual en el momento de crear el movimiento!", "Se ha tragado un importe negativo!!"};
+	static final String TIPO_MOVIMIENTO = "ingreso";
 	
 	
 	//Voy con el objeto creado antes de cada metodo
 	@BeforeEach
 	void crearMovimiento() throws LongitudStringInvalidaException {
-		movOk = new Movimiento(concepto, importe);
+		movOk = new Movimiento(CONCEPTO[0], IMPORTE[0]);
 	}
 
 	@Test
 	void testMovimiento() throws LongitudStringInvalidaException {
 		//Creo otro objeto auxiliar con los mismos valores
-		Movimiento movAux = new Movimiento(concepto, importe);
+		Movimiento movAux = new Movimiento(CONCEPTO[0], IMPORTE[0]);
 		//Compruebo que no es un nulo
 		assertNotNull(movAux);
 		//Comparo datos para ver si se asignaron
-		assertEquals(concepto, movAux.getmConcepto());
-		assertEquals(importe, movAux.getmImporte());
+		assertEquals(CONCEPTO[0], movAux.getmConcepto());
+		assertEquals(IMPORTE[0], movAux.getmImporte());
 	}
 	
 	
@@ -45,27 +48,27 @@ class MovimientoTest {
 	void testMovimientoE() {
 		//Compruebo que no se pueden crear movimientos sin concepto valido
 		Movimiento movAux;
-		assertThrows(LongitudStringInvalidaException.class, () -> new Movimiento("", 1450.60),
-	            "Se ha tragado el concepto sin letras!!!");
+		assertThrows(LongitudStringInvalidaException.class, () -> new Movimiento(CONCEPTO_INCORRECTO, IMPORTE[0]),
+	            ERROR_MESSAGE[0]);
 	}
 
 	@Test
 	void testGetmConcepto() {
 		//Compruebo que no es nulo y que me devuelve el dato correcto
 		assertNotNull(movOk.getmConcepto());
-		assertEquals(concepto, movOk.getmConcepto());
+		assertEquals(CONCEPTO[0], movOk.getmConcepto());
 	}
 
 	@Test
 	void testSetmConcepto() throws LongitudStringInvalidaException {
 		//Pruebo a cambiar el valor del dato y compruebo que se ha cambiado 2 veces
-		movOk.setmConcepto("Pruebita de setter desde el test");
-		assertNotEquals(concepto, movOk.getmConcepto());
-		movOk.setmConcepto(concepto);
-		assertEquals(concepto, movOk.getmConcepto());
+		movOk.setmConcepto(CONCEPTO[2]);
+		assertNotEquals(CONCEPTO[0], movOk.getmConcepto());
+		movOk.setmConcepto(CONCEPTO[0]);
+		assertEquals(CONCEPTO[0], movOk.getmConcepto());
 		//Compruebo que me da error cuando le paso concepto fuera de limites
-		assertThrows(LongitudStringInvalidaException.class, () ->  movOk.setmConcepto(""),
-				"Se ha tragado un concepto fuera de limites!!");
+		assertThrows(LongitudStringInvalidaException.class, () ->  movOk.setmConcepto(CONCEPTO_INCORRECTO),
+				ERROR_MESSAGE[1]);
 	}
 
 	@Test
@@ -74,7 +77,7 @@ class MovimientoTest {
 		assertNotNull(movOk.getmFecha());
 		//Compruebo que la fecha que coge el movimiento nunca sera una fecha del futuro
 		if (movOk.getmFecha().compareTo(LocalDate.now()) > 0) {
-			fail("La fecha del movimiento no puede ser una fecha por llegar!");
+			fail(ERROR_MESSAGE[2]);
 		}
 	}
 
@@ -84,28 +87,28 @@ class MovimientoTest {
 		movOk.setmFecha();
 		//Compruebo que efectivamente es la actual de hoy
 		if (movOk.getmFecha().compareTo(LocalDate.now()) != 0) {
-			fail("La fecha tiene que ser la actual en el momento de crear el movimiento!");
+			fail(ERROR_MESSAGE[3]);
 		}
 	}
 
 	@Test
 	void testGetmImporte() {
 		//Compruebo que guarda y devuelve bien el dato
-		assertEquals(importe, movOk.getmImporte());
+		assertEquals(IMPORTE[0], movOk.getmImporte());
 	}
 
 	@Test
 	void testSetmImporte() {
 		//Compruebo que no traga importes negativos como pide el ejercicio
-		assertThrows(NullPointerException.class, () -> movOk.setmImporte(-1450.60),
-				"Se ha tragado un importe negativo!!");
+		assertThrows(NullPointerException.class, () -> movOk.setmImporte(-IMPORTE[0]),
+				ERROR_MESSAGE[4]);
 	}
 
 	@Test
 	void testGetIdMovimiento() throws LongitudStringInvalidaException {
 		//Creo dos objetos y compruebo que su id itera.
 		assertEquals(1, movOk.getIdMovimiento());
-		movOk = new Movimiento("Otro concepto igual de valido que el otro.", 1005);
+		movOk = new Movimiento(CONCEPTO[1], IMPORTE[1]);
 		assertEquals(2, movOk.getIdMovimiento());
 	}
 
@@ -119,8 +122,8 @@ class MovimientoTest {
 	@Test
 	void testSetmTipoMovimiento() {
 		//Compruebo que guarda y devuelve bien el dato
-		movOk.setmTipoMovimiento("ingreso");
-		assertEquals("ingreso", movOk.getmTipoMovimiento());
+		movOk.setmTipoMovimiento(TIPO_MOVIMIENTO);
+		assertEquals(TIPO_MOVIMIENTO, movOk.getmTipoMovimiento());
 		//Compruebo que si recibe un nulo lo deja con valor vacio
 		movOk.setmTipoMovimiento(null);
 		assertEquals("", movOk.getmTipoMovimiento());

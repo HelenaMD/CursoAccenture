@@ -22,21 +22,25 @@ class DebitoTest {
 	static CuentaHerencia c;
 	static final String NUMERO_TARJETA = "ES00-1122-3344-5566-7788";
 	static final String NOMBRE_TITULAR = "Helena Martinez Duro";
+	static final String NUMERO_CUENTA = "IBAN-0011-2233-4455-6677";
+	static final double[] IMPORTES = {100.60, 1560.10};
+	static final String ERROR_MESSAGE = "Se ha tragado un ingreso sin cuenta asignada!!!";
 	static Debito d;
 	
 	@BeforeEach
 	void crearTarjeta() throws FechaInvalidaException, LongitudStringInvalidaException {
 		d = new Debito(FECHA_CAD, NUMERO_TARJETA, NOMBRE_TITULAR);
-		c = new CuentaHerencia("IBAN-0011-2233-4455-6677", "Helena Martinez Duro");
+		
+		c = new CuentaHerencia(NUMERO_CUENTA, NOMBRE_TITULAR);
 		//d.setmCuentaAsociada(c);
 	}
 
 	@Test
 	void testIngresar() throws LongitudStringInvalidaException {
-		assertThrows(NullPointerException.class, () -> d.ingresar(100.60),
-				"Se ha tragado un ingreso sin cuenta asignada!!!");
+		assertThrows(NullPointerException.class, () -> d.ingresar(IMPORTES[0]),
+				ERROR_MESSAGE);
 		d.setmCuentaAsociada(c);
-		d.ingresar(1560.10);
+		d.ingresar(IMPORTES[0]);
 		assertEquals(1, d.getmCuentaAsociada().getmMovimientos().size());
 	}
 
