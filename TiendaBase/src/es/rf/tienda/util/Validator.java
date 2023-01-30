@@ -50,6 +50,11 @@ public class Validator {
 	 * Longitud que debe tener todo DNI pasado a la aplicaci�n.
 	 */
 	private final static int LONGITUD_DNI = 12;
+	
+	/**
+	 * Patron que debe cumplir el codigo de producto.
+	 */
+	private final static String PRODUCTO_PATTERN = "[A-Z]{2}\\d{3}";
 
 	/** ***************************************************************************************
 	 * NOMBRE: isAlfanumeric                                                                 *
@@ -325,6 +330,20 @@ public class Validator {
 	public static boolean esPasswordValida(String password){
 		/*Si password no es nulo y encaja con el patron de password devuelve true*/
 		if (comprobarNulo(password) && password.matches(PASSWORD_PATTERN)) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Metodo que comprueba que el string de producto contenga 5 caracteres, los dos primeros
+	 * siendo letras mayusculas y el resto 3 digitos.
+	 * @param producto String
+	 * @return boolean
+	 */
+	public static boolean esProductoValido(String producto) {
+		if (comprobarNulo(producto) && cumpleLongitud(producto, 5, 5) && 
+				isAlfanumeric(producto) && producto.matches(PRODUCTO_PATTERN)) {
 			return true;
 		}
 		return false;
