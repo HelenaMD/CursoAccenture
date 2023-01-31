@@ -10,7 +10,7 @@ public class JuegoContraMaquina {
 	private static Random r = new Random();
 	private static int numMaq = r.nextInt(9999);
 	private static int topeInf = 0;
-	private static int topeSup = 0;
+	private static int topeSup = 9999;
 	private static int numActualMaq = r.nextInt(9999);
 	
 	private static int puntosUsuario = 0;
@@ -82,14 +82,7 @@ public class JuegoContraMaquina {
 			finPartida = true;
 			puntosMaquina++;
 		}
-		/*Si la maquina me daba por primera vez un numero menor resulta que al tener
-		 * un limite superior de 0 siempre me daba valores menores cuando necesita
-		 * darme uno mayor en realidad, asi que introduje esta comprobacion*/
-		if (topeSup == 0 && respuesta.equalsIgnoreCase("me")) {
-			numActualMaq = topeInf*2;
-		} else {
-			numActualMaq = (topeSup + topeInf)/2;
-		}
+		numActualMaq = (topeSup + topeInf)/2;
 		
 	}
 
