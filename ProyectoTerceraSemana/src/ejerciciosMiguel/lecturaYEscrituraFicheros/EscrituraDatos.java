@@ -36,8 +36,8 @@ public class EscrituraDatos {
 			ficheroPrueba = new FileWriter(pathSource.toString());
 			pw = new PrintWriter(ficheroPrueba);
 			
-			pw.println("NOMBRE = " + nombre);
-			pw.println("APELLIDO = " + apellido);
+			pw.println("NOMBRE=" + nombre);
+			pw.println("APELLIDO=" + apellido);
 			
 		} catch(IOException ioe) {
 			ioe.printStackTrace();

@@ -18,11 +18,20 @@ public class LecturaDatos {
 			fichero = new File("C:\\Users\\helena.martinez.duro\\OneDrive - Accenture\\Documents\\CursoAccenture\\ProyectoTerceraSemana\\src\\ejerciciosMiguel\\lecturaYEscrituraFicheros\\prueba.txt");
 			fr = new FileReader(fichero);
 			bfr = new BufferedReader(fr);
+			String nombre = "";
+			String apellido = "";
 			
 			while ((linea = bfr.readLine()) != null) {
-				splitted = linea.split(" ");
-				System.out.print(splitted[2] + " ");
+				splitted = linea.split("=");
+				if (splitted[0].equalsIgnoreCase("nombre")) {
+					nombre = splitted[1];
+				}
+				if (splitted[0].equalsIgnoreCase("apellido")) {
+					apellido = splitted[1];
+				}
 			}
+			
+			System.out.print(nombre + " " + apellido);
 			
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

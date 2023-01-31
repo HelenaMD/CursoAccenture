@@ -1,2 +1,2 @@
-NOMBRE = Helena
-APELLIDO = Martinez
+NOMBRE=Helena
+APELLIDO=Martinez
