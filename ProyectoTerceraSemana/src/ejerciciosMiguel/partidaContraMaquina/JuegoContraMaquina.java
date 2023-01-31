@@ -6,12 +6,12 @@ import java.util.Scanner;
 public class JuegoContraMaquina {
 	
 	/*Atributos*/
-	private static Scanner teclado = new Scanner(System.in);
-	private static Random r = new Random();
-	private static int numMaq = r.nextInt(9999);
 	private static int topeInf = 0;
 	private static int topeSup = 9999;
-	private static int numActualMaq = r.nextInt(9999);
+	private static Scanner teclado = new Scanner(System.in);
+	private static Random r = new Random();
+	private static int numMaq = r.nextInt(topeSup);
+	private static int numActualMaq = r.nextInt(topeSup);
 	
 	private static int puntosUsuario = 0;
 	private static int puntosMaquina = 0;
@@ -22,6 +22,7 @@ public class JuegoContraMaquina {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//Variable que usare para una respuesta de usuario
+		int topeSupAux = topeSup;
 		String resp = "";
 		//Mientras queramos jugar
 		while (!finJuego) {
@@ -43,10 +44,10 @@ public class JuegoContraMaquina {
 				finJuego = true;
 			} else { //Si queremos seguir reseteo valores
 				finPartida = false;
-				numMaq = r.nextInt(9999);
-				numActualMaq = r.nextInt(9999);
+				numMaq = r.nextInt(topeSupAux);
+				numActualMaq = r.nextInt(topeSupAux);
 				topeInf = 0;
-				topeSup = 0;
+				topeSup = topeSupAux;
 			}
 		}
 	}
