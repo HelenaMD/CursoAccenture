@@ -1,6 +1,7 @@
 package ejerciciosMiguel.reparteBaraja;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Clase que contiene los datos de un jugador
@@ -15,6 +16,7 @@ public class Jugador {
 	private String nombre;
 	private int edad;
 	private HashSet<Carta> mano;
+	private Combinacion combinacion;
 
 	/**
 	 * Constructor principal
@@ -26,6 +28,7 @@ public class Jugador {
 		setNombre(nombre);
 		setEdad(edad);
 		setMano(new HashSet<Carta>());
+		
 	}
 	
 	/**
@@ -93,6 +96,63 @@ public class Jugador {
 			throw new IllegalArgumentException("La mano no puede estar vacía!!!");
 		}
 		
+	}
+	
+	/**
+	 * Getter de Combinacion
+	 * @return Combinacion
+	 */
+	public Combinacion getCombinacion() {
+		return combinacion;
+	}
+
+	/**
+	 * Setter de combinacion
+	 * @param combinacion Combinacion
+	 */
+	public void setCombinacion(Combinacion combinacion) {
+		if (combinacion != null) {
+			this.combinacion = new Combinacion(combinacion);
+		} else {
+			this.combinacion = new Combinacion("", 0);
+		}
+		
+	}
+
+	/**
+	 * Metodo que busca la carta a descartar en la mano del jugador, la elimina de su
+	 * mano y la devuelve. Si no existe la carta devuelve nulo.
+	 * @param c Carta
+	 * @return Carta
+	 */
+	public Carta descartarCartaDeLaMano(Carta c) {
+		HashSet<Carta> auxMano = new HashSet<Carta>(getMano());
+		Carta auxC = null;
+		
+		for (Iterator<Carta> it = auxMano.iterator(); it.hasNext();) {
+			auxC = it.next();
+			if (auxC.equals(c)) {
+				it.remove();
+			}
+		}
+		
+		setMano(auxMano);
+		
+		return auxC;
+	}
+	
+	/**
+	 * Metodo que aniade una carta a la mano del jugador
+	 * @param c Carta
+	 */
+	public void aniadirCarta(Carta c) {
+		if (c != null) {
+			HashSet<Carta> aux = new HashSet<Carta>(getMano());
+			aux.add(c);
+			setMano(aux);
+		} else {
+			throw new IllegalArgumentException("No va a aniadir una carta inexistente!");
+		}
 	}
 	
 	/**

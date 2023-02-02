@@ -1,5 +1,7 @@
 package ejerciciosMiguel.reparteBaraja;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -91,18 +93,33 @@ public class Juego {
 	}
 	
 	/**
+	 * Metodo que elige cuantas cartas repartir a los jugadores dependiendo de si
+	 * hay cartas suficientes.
+	 * @param numeroCartasPorJugador int
+	 */
+	public void repartirCartas(int numeroCartasPorJugador) {
+		int cartasPosiblesPorJugador = getBaraja().getBaraja().size() / getJugadores().size();
+		if (numeroCartasPorJugador > cartasPosiblesPorJugador) {
+			repartirCartasReal(cartasPosiblesPorJugador);
+		} else {
+			repartirCartasReal(numeroCartasPorJugador);
+		}
+	}
+	
+	/**
 	 * Metodo que reparte las cartas de la baraja equitativamente a todos los jugadores
 	 * actualmente participando.
 	 * Las cartas que se reparten se quitan de la baraja y quedan las sobrantes.
+	 * POR MODIFICAR
 	 */
-	public void repartirCartas() {
+	public void repartirCartasReal(int cartasPorJugador) {
 		//Variables auxiliares
 		int contador = 1;
 		HashSet<Carta> manoAux;
 		HashSet<Jugador> jugadorAux = new HashSet<Jugador>();
 		
 		//Numero de cartas a repartir
-		int numCartasPorJugador = getBaraja().getBaraja().size() / getJugadores().size();
+		//int numCartasPorJugador = getBaraja().getBaraja().size() / getJugadores().size();
 		
 		//Iterador
 		Iterator<Carta> it = getBaraja().getBaraja().iterator();
@@ -112,7 +129,7 @@ public class Juego {
 			//Reseteo Set de mano para este jugador
 			manoAux = new HashSet<Carta>();
 			//Aniado las cartas correspondientes
-			while (contador <= numCartasPorJugador && it.hasNext()) {
+			while (contador <= cartasPorJugador && it.hasNext()) {
 				//Aniado la carta al set auxiliar de mano
 				manoAux.add(it.next());
 				//la elimino de la baraja
@@ -140,6 +157,122 @@ public class Juego {
 			ret += j.toString();
 		}
 		return ret;
+	}
+	
+	public ArrayList<Carta> ordenarMano(HashSet<Carta> hsc) {
+		ArrayList<Carta> arrAux = new ArrayList<Carta>();
+		for (Carta c : hsc) {
+			arrAux.add(c);
+		}
+		Collections.sort(arrAux);
+		return arrAux;
+	}
+	
+	public void revisarMano() {
+		ArrayList<Carta> manoOrdenada;
+		for (Jugador j : getJugadores()) {
+			manoOrdenada = ordenarMano(j.getMano());
+			switch (checkearPatrones(manoOrdenada)) {
+			case 2:
+				j.setCombinacion(new Combinacion("Pareja", 1));
+				break;
+			case 3:
+				j.setCombinacion(new Combinacion("Trio", 3));
+				break;
+			case 4:
+				j.setCombinacion(new Combinacion("Doble pareja", 2));
+				break;
+			case 5:
+				j.setCombinacion(new Combinacion("Full House", 4));
+				break;
+			case 6:
+				j.setCombinacion(new Combinacion("Poker", 6));
+				break;
+			case 0:
+			default:
+				//Checkear escaleras
+				break;
+			}
+		}
+	}
+	
+	public int checkearPatrones(ArrayList<Carta> arrCartaOrdenado) {
+		int numAnterior = 0;
+		int repAnterior = 0;
+		int numActual = 0;
+		int repActual = 0;
+		
+		int conteoVecesIgual = 0;
+		boolean cambioPatron = false;
+		
+		for (Carta c : arrCartaOrdenado) {
+			if (numAnterior == 0) {
+				numAnterior = c.getNumero();
+			} else {
+				numActual = c.getNumero();
+				if (numAnterior == numActual) {
+					conteoVecesIgual++;
+					switch (conteoVecesIgual) {
+					case 1:
+						repActual = 2;
+						break;
+					case 2:
+						repActual = 3;
+						break;
+					case 3:
+						repActual = 6;
+						break;
+					default:
+						repActual = 0;
+						break;
+					}
+				} else {
+					cambioPatron = true;
+				}
+				numAnterior = numActual;
+			}
+			if (conteoVecesIgual != 0 && cambioPatron) {
+				repAnterior = repActual;
+				repActual = 0;
+				cambioPatron = false;
+			}
+			
+		}
+		return repAnterior + repActual;
+	}
+	
+	public int checkearEscaleras(ArrayList<Carta> arrCartaOrdenado) {
+		int numActual = 0;
+		boolean escalera = true;
+		int[] escaleraReal = {1, 10, 11, 12, 13};
+		boolean escaleraRealb = true;
+		boolean mismoPalo = true;
+		String thisPalo = "";
+		int contador = 0;
+		
+		for (Carta c : arrCartaOrdenado) {
+			if (escaleraRealb) {
+				if (escaleraReal[contador] != c.getNumero()) {
+					escaleraRealb = false;
+				}
+			}
+			if (numActual == 0) {
+				thisPalo = c.getPalo();
+				numActual = c.getNumero();
+			} else if (escalera){
+				if (!(numActual+1 == c.getNumero())) {
+					escalera = false;
+				}
+			}
+			if (mismoPalo) {
+				if (!(thisPalo.equalsIgnoreCase(c.getPalo()))) {
+					mismoPalo = false;
+				}
+			}
+			contador++;
+		}
+		//Sin acabar
+		return 0;
 	}
 
 	/**

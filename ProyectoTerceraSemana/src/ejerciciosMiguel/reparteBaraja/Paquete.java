@@ -61,17 +61,20 @@ public class Paquete {
 		//Variables auxiliares
 		String[] p;
 		Set<Carta> aux = new HashSet<Carta>();
+		int numCartas = 0;
 		
 		//Veo si es baraja española o poker
 		if (tipoPalo == TipoPalo.ESP) {
 			p = PALO_ESP;
+			numCartas = 12;
 		} else {
 			p = PALO_POK;
+			numCartas = 13;
 		}
 		
 		//Relleno una baraja
 		for (String s : p) {
-			for (int i = 1; i <= 12; i++) {
+			for (int i = 1; i <= numCartas; i++) {
 				aux.add(new Carta(s, i));
 			}
 		}

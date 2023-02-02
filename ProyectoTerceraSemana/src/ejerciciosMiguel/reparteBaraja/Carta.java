@@ -5,7 +5,7 @@ package ejerciciosMiguel.reparteBaraja;
  * @author helena.martinez.duro
  *
  */
-public class Carta {
+public class Carta implements Comparable<Carta>{
 	
 	/**
 	 * Atributos de la clase
@@ -56,11 +56,38 @@ public class Carta {
 	 * @param numero int
 	 */
 	public void setNumero(int numero) {
-		if (numero <= 12 && numero >= 1) {
+		if (numero <= 13 && numero >= 1) {
 			this.numero = numero;
 		} else {
 			throw new IllegalArgumentException("El numero introducido no existe en la baraja.");
 		}
+	}
+	
+	/**
+	 * Metodo que compara un objeto pasado por parametro para saber si es igual que la instancia actual
+	 */
+	@Override
+	public boolean equals(Object o) {
+		//Si el objeto que recibe y esta instancia estan referenciados en el mismo
+		// lugar de la memoria significa que estamos comparando una instancia
+		// consigo misma y por lo tanto son iguales
+		if (this == o) {
+			return true;
+		}
+		//Si es un objeto distinto, comprobamos que sea instancia de Carta
+		if (this instanceof Carta) {
+			//Si lo es hacemos Casteo
+			Carta c = (Carta)o;
+			//Comprobamos el valor de los atributos de la instancia actual
+			// con los atributos del objeto recibido
+			// Si son iguales, concluimos que los dos objetos son iguales en el
+			// sentido que sus valores son identicos
+			if (this.palo.equalsIgnoreCase(c.getPalo()) && this.numero == c.getNumero()) {
+				return true;
+			}
+		}
+		//Si algun check falla, no se trata de dos objetos iguales.
+		return false;
 	}
 	
 	/**
@@ -70,6 +97,16 @@ public class Carta {
 	@Override
 	public String toString() {
 		return "Carta " +  getNumero() + " de " + getPalo();
+	}
+
+	/**
+	 * Metodo que sirve para comparar cartas entre si segun el numero para poder
+	 * ordenarlas mas adelante
+	 */
+	@Override
+	public int compareTo(Carta c) {
+		// TODO Auto-generated method stub
+		return Integer.compare(this.numero, c.getNumero());
 	}
 	
 }
