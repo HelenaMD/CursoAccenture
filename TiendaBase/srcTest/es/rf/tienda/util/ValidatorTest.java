@@ -25,8 +25,8 @@ class ValidatorTest {
 	static final String[] PHONENUMBER_INCORRECT = {"+(34)666777888", "2456", "          23"};
 	static final String[] EMAIL_CORRECT = {"hola@adios.es", "of_courSe@hola-tio.com", "welcOme1@adiOs2.py", "a@e.es", "a.la@olo.com"};
 	static final String[] EMAIL_INCORRECT = {"hola@adios.a", "@adios.com", "eje@.com", "to!!@egg.es", "ole@ole@ole.com"};
-	static final String[] DNI_CORRECT = {"23.456.789-H", "99.888.666-T"};
-	static final String[] DNI_INCORRECT = {"2..456.789-H", "11111111111F", "A", "222222222222", "TYUIOPLKJHGF"};
+	static final String[] DNI_CORRECT = {"19.008.257-E", "91.927.521-V", "00.623.350-G"};
+	static final String[] DNI_INCORRECT = {"2..456.789-H", "11111111111F", "A", "222222222222", "TYUIOPLKJHGF", "99.999.999-F"};
 	static final String[] FECHAS_INCORRECT = {"10-12", "23D12M2020A", "2024_03", "jueves 29 de enero de 2023", "23-04-1999"};
 	static final String FECHA_CORRECT = "23/04/1999";
 	static final String[] PASS_CORRECT = {"aA12!@.", "aaAA1122!!@."};
@@ -105,14 +105,14 @@ class ValidatorTest {
 	}
 	
 	/*Metodo que comprueba inputs string y confirma si encajan en el patron de DNI*/
-	@RepeatedTest(value = 2, name = "Strings dni correctas {currentRepetition}/{totalRepetitions}")
+	@RepeatedTest(value = 3, name = "Strings dni correctas {currentRepetition}/{totalRepetitions}")
 	void testCumpleDNICorrecto(RepetitionInfo repetitionInfo) {
 		String str = DNI_CORRECT[repetitionInfo.getCurrentRepetition() - 1];
 		assertTrue(Validator.cumpleDNI(str));
 	}
 	
 	/*Metodo que comprueba inputs string y confirma si NO encajan en el patron de DNI*/
-	@RepeatedTest(value = 5, name = "Strings dni incorrectas {currentRepetition}/{totalRepetitions}")
+	@RepeatedTest(value = 6, name = "Strings dni incorrectas {currentRepetition}/{totalRepetitions}")
 	void testCumpleDNIIncorrecto(RepetitionInfo repetitionInfo) {
 		String str = DNI_INCORRECT[repetitionInfo.getCurrentRepetition() - 1];
 		assertFalse(Validator.cumpleDNI(str));

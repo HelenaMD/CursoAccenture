@@ -157,10 +157,27 @@ public class Validator {
 		 * - dni Encaja en el patron de dni
 		 * - La letra del dni es una letra valida de la lista de letras
 		 * entonces devuelve true*/
-		if (comprobarNulo(dni) && dni.matches(DNI_PATTERN) && LETRA_DNI.contains(
-				String.valueOf(
-						dni.charAt(dni.length()-1))) &&
+		String letraDni = String.valueOf(dni.charAt(dni.length()-1));
+		if (comprobarNulo(dni) && dni.matches(DNI_PATTERN) && LETRA_DNI.contains(letraDni) &&
 				dni.length() == LONGITUD_DNI) {
+			if (comprobarNumeroLetraCorrectoDNI(letraDni, dni)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Metodo que coge el valor numerico del dni, calcula cual seria su letra 
+	 * correspondiente y confirma que es igual a la letra recibida
+	 * @param letra String
+	 * @param dni String
+	 * @return boolean
+	 */
+	public static boolean comprobarNumeroLetraCorrectoDNI(String letra, String dni) {
+		int soloNums = Integer.valueOf(dni.replaceAll("[A-Za-z.-]", ""));
+		
+		if (String.valueOf(LETRA_DNI.charAt(soloNums%23)).equalsIgnoreCase(letra)) {
 			return true;
 		}
 		return false;
