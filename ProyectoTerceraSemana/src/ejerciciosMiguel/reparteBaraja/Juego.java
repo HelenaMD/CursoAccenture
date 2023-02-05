@@ -100,9 +100,11 @@ public class Juego {
 	public void repartirCartas(int numeroCartasPorJugador) {
 		int cartasPosiblesPorJugador = getBaraja().getBaraja().size() / getJugadores().size();
 		if (numeroCartasPorJugador > cartasPosiblesPorJugador) {
-			repartirCartasReal(cartasPosiblesPorJugador);
+			//repartirCartasReal(cartasPosiblesPorJugador);
+			repartirCartasIndividual(cartasPosiblesPorJugador);
 		} else {
-			repartirCartasReal(numeroCartasPorJugador);
+			//repartirCartasReal(numeroCartasPorJugador);
+			repartirCartasIndividual(numeroCartasPorJugador);
 		}
 	}
 	
@@ -112,7 +114,7 @@ public class Juego {
 	 * Las cartas que se reparten se quitan de la baraja y quedan las sobrantes.
 	 * POR MODIFICAR
 	 */
-	public void repartirCartasReal(int cartasPorJugador) {
+	/*public void repartirCartasReal(int cartasPorJugador) {
 		//Variables auxiliares
 		int contador = 1;
 		HashSet<Carta> manoAux;
@@ -145,6 +147,31 @@ public class Juego {
 		}
 		//Una vez tengo todos los jugadores con mano actualizada los asigno de nuevo al juego
 		setJugadores(jugadorAux);
+	}*/
+	
+	/**
+	 * Metodo que reparte las cartas como en la vida real, dandolas de una en una a cada jugador.
+	 * @param cartasPorJugador int
+	 */
+	public void repartirCartasIndividual(int cartasPorJugador) {
+		/*Ahora el numero de cartas por jugador correspondera a la ronda de reparto, ya que 
+		 * por ronda doy una carta a cada jugador*/
+		int rondaReparto = 1;
+		
+		//Iterador de la baraja
+		Iterator<Carta> it = getBaraja().getBaraja().iterator();
+		
+		//Mientras la ronda de reparto sea menor o igual a la cantidad de cartas que debe tener cada jugador
+		// y existan cartas en la baraja
+		while (rondaReparto <= cartasPorJugador && it.hasNext()) {
+			//A cada jugador dale una carta y quitala de la baraja
+			for (Jugador j : getJugadores()) {
+				j.aniadirCarta(it.next());
+				it.remove();
+			}
+			//Cuando hemos repartido una carta a cada jugador hemos terminado una ronda de reparto
+			rondaReparto++;
+		}
 	}
 	
 	/**

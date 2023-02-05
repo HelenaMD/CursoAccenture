@@ -40,7 +40,8 @@ public class Main {
 		
 		System.out.println("Muestro baraja antes de repartir:----------------------");
 		j.getBaraja().getBaraja().stream().forEach(System.out::println);
-		ArrayList<Carta> auxCartas = new ArrayList<Carta>();
+		
+		/*ArrayList<Carta> auxCartas = new ArrayList<Carta>();
 		
 		for (Carta c : j.getBaraja().getBaraja()) {
 			auxCartas.add(c);
@@ -52,25 +53,21 @@ public class Main {
 		Collections.sort(auxCartas);
 		
 		System.out.println("Muestro baraja despues de ordenar:----------------------");
-		auxCartas.stream().forEach(System.out::println);
-		/*j.repartirCartas(7);
+		auxCartas.stream().forEach(System.out::println);*/
+		j.repartirCartas(5);
 		
-		System.out.println(j1.verMano());
+		/*System.out.println(j1.verMano());
 		System.out.println(j2.verMano());
 		System.out.println(j3.verMano());
 		System.out.println(j4.verMano());
-		System.out.println(j5.verMano());
+		System.out.println(j5.verMano());*/
 		
-		
-		for (Jugador ju : j.getJugadores()) {
-			
-		}
 		
 		System.out.println("Muestro baraja despues de repartir:----------------------");
 		j.getBaraja().getBaraja().stream().forEach(System.out::println);
 		System.out.println(j.getBaraja().numeroCartas());
 		
-		System.out.println(j.toString());*/
+		System.out.println(j.toString());
 	}
 
 }
