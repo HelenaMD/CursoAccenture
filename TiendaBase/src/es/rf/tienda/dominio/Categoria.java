@@ -1,25 +1,61 @@
 package es.rf.tienda.dominio;
 
+import es.rf.tienda.exception.DomainException;
 import es.rf.tienda.util.Validator;
 
 /**
  * 
  * Nombre		Categoria
  * Descripcion	Lista de categorías
- * @author 		Miguel Garcia
- * @version		13 de abr. de 2016
+ * @author 		Helena Martinez
+ * @version		2 de febrero de 2023
  *
  */
 public class Categoria {
 	
-	private int id_categoria;			//identificador categoria
+	//Si es autonumerico como pone en el excel tiene que ser static para poder
+	// hacerlo autoincremental
+	/**
+	 * Id de la categoria. Autoincremental.
+	 */
+	private static int id_categoria;
 	
-	private String cat_nombre;			//nombre de la categoria
+	/**
+	 * Nombre de la categoria. Alfanumerico entre 5 y 50 caracteres. Requerido.
+	 */
+	private String cat_nombre;
 	
-	private String cat_descripcion;		//descripcion de la categoria
+	/**
+	 * Descripcion de la categoria. Alfanumerico hasta 200 caracteres. Opcional.
+	 */
+	private String cat_descripcion;
 	
+	static {
+		id_categoria = 0;
+	}
 	
-	public Categoria(){}
+	/**
+	 * Constructor principal
+	 * @param catNombre
+	 * @param catDescripcion
+	 * @throws DomainException
+	 */
+	public Categoria(String catNombre, String catDescripcion) throws DomainException {
+		id_categoria++;
+		setCat_nombre(catNombre);
+		setCat_descripcion(catDescripcion);
+	}
+	
+	/**
+	 * Segundo constructor
+	 * @param catNombre
+	 * @throws DomainException
+	 */
+	public Categoria(String catNombre) throws DomainException {
+		id_categoria++;
+		setCat_nombre(catNombre);
+		setCat_descripcion(null);
+	}
 	
 	
 	public boolean isValid(){	
@@ -39,9 +75,9 @@ public class Categoria {
 	 * Setter para identificador de categoria
 	 * 
 	 */
-	public void setId_categoria(int id_categoria) {
+	/*public void setId_categoria(int id_categoria) {
 		this.id_categoria = id_categoria;
-	}
+	}*/
 	
 	/**
 	 * Getter para el nombre de categoria
@@ -53,10 +89,16 @@ public class Categoria {
 	
 	/**
 	 * Setter para el nombre de categoria
+	 * @throws DomainException 
 	 * 
 	 */
-	public void setCat_nombre(String cat_nombre) {
-		this.cat_nombre = cat_nombre;
+	public void setCat_nombre(String cat_nombre) throws DomainException {
+		if (Validator.cumpleLongitud(cat_nombre, 5, 50) && Validator.isAlfanumeric(cat_nombre)) {
+			this.cat_nombre = cat_nombre;
+		} else {
+			throw new DomainException("El nombre de la categoria debe ser alfanumerico y tener entre "
+					+ "5 y 50 caracteres.");
+		}
 	}
 	
 	/**
@@ -69,10 +111,17 @@ public class Categoria {
 	
 	/**
 	 * setter para la descripcion de categoria
+	 * @throws DomainException 
 	 * 
 	 */
-	public void setCat_descripcion(String cat_descripcion) {
-		this.cat_descripcion = cat_descripcion;
+	public void setCat_descripcion(String cat_descripcion) throws DomainException {
+		if (Validator.cumpleLongitudMax(cat_descripcion, 200) && Validator.isAlfanumeric(cat_descripcion)) {
+			this.cat_descripcion = cat_descripcion;
+		} else if (cat_descripcion == null) {
+			this.cat_descripcion = null;
+		} else {
+			throw new DomainException("La descripcion de la categoria debe ser alfanumerica y no puede superar los 200 caracteres.");
+		}
 	}
 
 

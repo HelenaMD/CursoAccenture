@@ -17,8 +17,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ValidatorTest {
 
 	/*Datos que van a probarse*/
-	static final String[] ALFANUMERIC_CORRECT = {"abcde", "12345", "abcABC", "aBcDe1234", "n", "6"};
-	static final String[] ALFANUMERIC_INCORRECT = {"",  "con espacios", "hola!!", "@twitter", "-.-", "\\_/"};
+	static final String[] ALFANUMERIC_CORRECT = {"abcde", "12345", "abcABC", "aBcDe1234", "n", "6", "con espacios"};
+	static final String[] ALFANUMERIC_INCORRECT = {"", "hola!!", "@twitter", "-.-", "\\_/"};
 	static final String[] VACIO_CORRECT = {"",  null};
 	static final String[] VACIO_INCORRECT = {"hola",  "___", " "};
 	static final String[] PHONENUMBER_CORRECT = {"34 666777888", "2 111 222 333"};
@@ -49,14 +49,14 @@ class ValidatorTest {
 	static final LocalDate FECHA_NULA = null;
 	
 	/*Metodo que comprueba inputs string y confirma si son alfanumericos*/
-	@RepeatedTest(value = 6, name = "Strings alfanumericas correctas {currentRepetition}/{totalRepetitions}")
+	@RepeatedTest(value = 7, name = "Strings alfanumericas correctas {currentRepetition}/{totalRepetitions}")
 	void testIsAlfanumericCorrect(RepetitionInfo repetitionInfo) {
 		String str = ALFANUMERIC_CORRECT[repetitionInfo.getCurrentRepetition() - 1];
 		assertTrue(Validator.isAlfanumeric(str));
 	}
 	
 	/*Metodo que comprueba inputs string y confirma si NO son alfanumericos*/
-	@RepeatedTest(value = 6, name = "Strings alfanumericas incorrectas {currentRepetition}/{totalRepetitions}")
+	@RepeatedTest(value = 5, name = "Strings alfanumericas incorrectas {currentRepetition}/{totalRepetitions}")
 	void testIsAlfanumericIncorrect(RepetitionInfo repetitionInfo) {
 		String str = ALFANUMERIC_INCORRECT[repetitionInfo.getCurrentRepetition() - 1];
 		assertFalse(Validator.isAlfanumeric(str));
