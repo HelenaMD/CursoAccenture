@@ -57,6 +57,16 @@ public class Categoria {
 		setCat_descripcion(null);
 	}
 	
+	/**
+	 * Constructor vacio
+	 * @param catNombre
+	 * @throws DomainException
+	 */
+	public Categoria() throws DomainException {
+		id_categoria++;
+		setCat_nombre("Por Defecto");
+		setCat_descripcion(null);
+	}
 	
 	public boolean isValid(){	
 		return !Validator.isVacio(cat_nombre) &&
@@ -120,7 +130,8 @@ public class Categoria {
 		} else if (cat_descripcion == null) {
 			this.cat_descripcion = null;
 		} else {
-			throw new DomainException("La descripcion de la categoria debe ser alfanumerica y no puede superar los 200 caracteres.");
+			throw new DomainException("La descripcion de la categoria debe ser alfanumerica y no puede "
+					+ "superar los 200 caracteres.");
 		}
 	}
 

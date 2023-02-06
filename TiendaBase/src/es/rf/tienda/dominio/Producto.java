@@ -162,22 +162,10 @@ public class Producto {
 	 * Constructor secundario
 	 * @param id_producto
 	 * @param pro_descripcion
-	 * @param pro_desLarga
 	 * @param pro_precio
-	 * @param pro_stock
-	 * @param pro_fecRepos
-	 * @param pro_fecActi
-	 * @param pro_fecDesacti
 	 * @param pro_uniVenta
-	 * @param pro_cantXUniVenta
-	 * @param pro_uniUltNivel
 	 * @param id_pais
-	 * @param pro_usoRecomendado
 	 * @param id_categoria
-	 * @param pro_stkReservado
-	 * @param pro_nStkAlto
-	 * @param pro_nStkBajo
-	 * @param pro_stat
 	 * @throws DomainException 
 	 */
 	public Producto(String id_producto, String pro_descripcion, double pro_precio, String pro_uniVenta, 
@@ -196,6 +184,25 @@ public class Producto {
 		setId_pais(id_pais);
 		setPro_usoRecomendado(null);
 		setId_categoria(id_categoria);
+		setPro_stkReservado(0);
+		setPro_nStkAlto(0);
+		setPro_nStkBajo(0);
+		setPro_stat('A');
+	}
+	
+	/**
+	 * Constructor vacio
+	 * @throws DomainException 
+	 */
+	public Producto() throws DomainException {
+		setPro_desLarga(null);
+		setPro_stock(0);
+		setPro_fecRepos(null);
+		setPro_fecActi(null);
+		setPro_fecDesacti(null);
+		setPro_cantXUniVenta(0);
+		setPro_uniUltNivel(null);
+		setPro_usoRecomendado(null);
 		setPro_stkReservado(0);
 		setPro_nStkAlto(0);
 		setPro_nStkBajo(0);
