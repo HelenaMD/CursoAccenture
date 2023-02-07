@@ -5,12 +5,13 @@ import java.util.List;
 
 import rf.curso.maven.dao.CategoriaDao;
 import rf.curso.maven.dao.CountryDao;
+import rf.curso.maven.dao.CountryDaoI;
 import rf.curso.maven.dominios.Categoria;
 import rf.curso.maven.dominios.Country;
 import rf.curso.maven.exception.DomainException;
 
 public class CountryController {
-private CountryDao catDao;
+private CountryDaoI catDao;
 	
 	public CountryController() throws SQLException {
 		catDao = new CountryDao();

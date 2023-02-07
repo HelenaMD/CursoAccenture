@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>rf.curso.maven</groupId>
-  <artifactId>ProyectoPrueba</artifactId>
+  <artifactId>S4_PruebaAcceso</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>ProyectoPrueba</name>
+  <name>S4_PruebaAcceso</name>
   <url>http://maven.apache.org</url>
 
   <properties>
