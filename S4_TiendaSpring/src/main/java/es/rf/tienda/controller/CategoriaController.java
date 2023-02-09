@@ -45,8 +45,12 @@ public class CategoriaController {
 	@PostMapping
 	public String[] alta(@RequestBody Categoria c) {
 		c.setId_categoria(0);
-		cDao.save(c);
-		return new String[] {"200", "Registro salvado"};
+		if (c.isValidInsert()) {
+			cDao.save(c);
+			return new String[] {"200", "Registro salvado"};
+		} else {
+			return new String[] {"500", "Registro no valido"};
+		}
 	}
 	
 	@PutMapping

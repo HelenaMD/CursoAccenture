@@ -16,7 +16,7 @@ public class Usuario {
 	/**
 	 * Id del usuario. Autoincremental.
 	 */
-	private static int id_usuario;
+	private int id_usuario;
 	
 	/**
 	 * Nombre de usuario. Alfanumerico entre 5 y 100 caracteres. Requerido.
@@ -53,11 +53,6 @@ public class Usuario {
 	 * Fecha de confirmacion del usuario. Null por defecto. Opcional.
 	 */
 	private LocalDate user_fecConfirmacion;
-
-	
-	static {
-		id_usuario = 0;
-	}
 	
 	/**
 	 * Getter de id_usuario

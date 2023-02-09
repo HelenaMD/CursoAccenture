@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import es.rf.tienda.exception.DomainException;
 import es.rf.tienda.util.Validator;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +39,7 @@ public class Categoria implements Serializable {
 	/**
 	 * Nombre de la categoria. Alfanumerico entre 5 y 50 caracteres. Requerido.
 	 */
+	@Column(nullable = false)
 	private String cat_nombre;
 	
 	/**
@@ -75,16 +77,24 @@ public class Categoria implements Serializable {
 	 * @param catNombre
 	 * @throws DomainException
 	 */
-	public Categoria() throws DomainException {
-		id_categoria++;
-		setCat_nombre("Por Defecto");
-		setCat_descripcion(null);
+	public Categoria() {}
+	
+	@Transient
+	public boolean isValidInsert(){
+		if (!Validator.isVacio(cat_nombre)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	@Transient
-	public boolean isValid(){	
-		return !Validator.isVacio(cat_nombre) &&
-				id_categoria > 0;
+	public boolean isValidUpdate(){
+		if (!Validator.isVacio(cat_nombre) && id_categoria > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	/**
