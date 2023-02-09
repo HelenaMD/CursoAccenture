@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,8 +56,21 @@ public class CategoriaController {
 	
 	@PutMapping
 	public String[] modificacion(@RequestBody Categoria c) {
-		c.setId_categoria(0);
-		cDao.save(c);
-		return new String[] {"200", "Registro modificado"};
+		if(c.isValidUpdate()) {
+			cDao.save(c);
+			return new String[] {"200", "Registro modificado"};
+		} else {
+			return new String[] {"500", "Registro invalido"};
+		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public String[] modificacion(@PathVariable("id") int id) {
+		if(id > 0) {
+			cDao.deleteById(id);
+			return new String[] {"200", "Registro borrado"};
+		} else {
+			return new String[] {"500", "Registro invalido"};
+		}
 	}
 }

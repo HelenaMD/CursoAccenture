@@ -9,12 +9,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>es.rf</groupId>
-	<artifactId>S4_TiendaSpring2</artifactId>
+	<artifactId>S4_TiendaSpring</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>S4_TiendaSpring</name>
 	<description>TiendaBase en Spring</description>
 	<properties>
 		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
