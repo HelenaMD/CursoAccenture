@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import es.rf.tienda.dominio.Categoria;
 import es.rf.tienda.dominio.Modelo;
+import es.rf.tienda.exception.DomainException;
 
 /*Clase que será de tipo: 
  * -- Una clase dominio que extiende de Modelo, >(T)<
@@ -21,9 +23,17 @@ import es.rf.tienda.dominio.Modelo;
  * */
 public class ServicioGral<T extends Modelo, S, R extends JpaRepository<T, S>> implements IServicio<T, S> {
 
+	/**
+	 * Spring instancia un objeto repositorio que en este caso contiene los metodos heredados de
+	 * JpaRepository
+	 * Sera a quien llamemos para ordenar las operaciones en bbdd.
+	 */
 	@Autowired
 	private R rDao;
 	
+	/**
+	 * Metodo sobreescrito insert implementado de IServicio.
+	 */
 	@Override
 	public boolean insert(T t) {
 		if (t.isValidInsert()) {
@@ -34,6 +44,9 @@ public class ServicioGral<T extends Modelo, S, R extends JpaRepository<T, S>> im
 		}
 	}
 
+	/**
+	 * Metodo sobreescrito update implementado de IServicio.
+	 */
 	@Override
 	public boolean update(T t) {
 		if (t.isValidUpdate()) {
@@ -44,21 +57,30 @@ public class ServicioGral<T extends Modelo, S, R extends JpaRepository<T, S>> im
 		}
 	}
 
+	/**
+	 * Metodo sobreescrito deleteById implementado de IServicio.
+	 */
 	@Override
 	public boolean deleteById(S s) {
 		try {
 			rDao.deleteById(s);
 			return true;
-		} catch (NoSuchElementException nsee) {
+		} catch (EmptyResultDataAccessException nsee) {
 			return false;
 		}
 	}
 
+	/**
+	 * Metodo sobreescrito listAll implementado de IServicio.
+	 */
 	@Override
 	public List<T> listAll() {
 		return rDao.findAll();
 	}
 
+	/**
+	 * Metodo sobreescrito leerUno implementado de IServicio.
+	 */
 	@Override
 	public T leerUno(S s) {
 		try {

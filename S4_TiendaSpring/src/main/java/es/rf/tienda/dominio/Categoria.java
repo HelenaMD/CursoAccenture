@@ -1,5 +1,6 @@
 package es.rf.tienda.dominio;
 
+import es.rf.tienda.util.ErrorMessages;
 import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
@@ -134,8 +135,7 @@ public class Categoria implements Serializable, Modelo {
 		if (Validator.cumpleLongitud(cat_nombre, 5, 50)) {
 			this.cat_nombre = cat_nombre;
 		} else {
-			throw new DomainException("El nombre de la categoria debe ser alfanumerico y tener entre "
-					+ "5 y 50 caracteres.");
+			throw new DomainException(ErrorMessages.CAT_NOMBRE_LONGITUD);
 		}
 	}
 	
@@ -149,7 +149,7 @@ public class Categoria implements Serializable, Modelo {
 	
 	/**
 	 * setter para la descripcion de categoria
-	 * @throws DomainException 
+	 * @throws DomainException si no cumple con los requisitos
 	 * 
 	 */
 	public void setCat_descripcion(String cat_descripcion) throws DomainException {
@@ -162,8 +162,7 @@ public class Categoria implements Serializable, Modelo {
 		} else if (cat_descripcion == null) {
 			this.cat_descripcion = null;
 		} else {
-			throw new DomainException("La descripcion de la categoria debe ser alfanumerica y no puede "
-					+ "superar los 200 caracteres.");
+			throw new DomainException(ErrorMessages.CAT_DESC_LONGITUD);
 		}
 	}
 

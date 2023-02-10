@@ -28,6 +28,8 @@ public class ErrorMessages {
 	 */
 	public final static String PROERR_003 = "La longitud de ? ha de estar entre ? y ?";
 	
+	public final static String CAT_NOMBRE_LONGITUD = "El nombre de la categoria debe ser alfanumerico y tener entre "
+			+ "5 y 50 caracteres.";
 	
-
+	public final static String CAT_DESC_LONGITUD = "La descripcion de la categoria no puede superar los 200 caracteres.";
 }

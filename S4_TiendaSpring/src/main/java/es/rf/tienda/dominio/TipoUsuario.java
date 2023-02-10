@@ -10,14 +10,14 @@ import jakarta.persistence.OneToMany;
  * @author Helena Martinez Duro
  * @version 10 de febrero de 2023
  */
-@Entity
+//@Entity
 public class TipoUsuario {
 	
 	/**
 	 * Tipo de usuario
 	 */
-	@Id
-	@OneToMany
+	//@Id
+	//@OneToMany
 	private int tipo_usuario;
 	
 	/**
