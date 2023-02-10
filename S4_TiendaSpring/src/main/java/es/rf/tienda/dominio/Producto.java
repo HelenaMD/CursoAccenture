@@ -192,22 +192,8 @@ public class Producto {
 	
 	/**
 	 * Constructor vacio
-	 * @throws DomainException 
 	 */
-	public Producto() throws DomainException {
-		setPro_desLarga(null);
-		setPro_stock(0);
-		setPro_fecRepos(null);
-		setPro_fecActi(null);
-		setPro_fecDesacti(null);
-		setPro_cantXUniVenta(0);
-		setPro_uniUltNivel(null);
-		setPro_usoRecomendado(null);
-		setPro_stkReservado(0);
-		setPro_nStkAlto(0);
-		setPro_nStkBajo(0);
-		setPro_stat('A');
-	}
+	public Producto() {}
 
 	/**
 	 * Getter de id_producto 
@@ -244,8 +230,7 @@ public class Producto {
 	 * @throws DomainException si no cumple con los requisitos
 	 */
 	public void setPro_descripcion(String descripcion_producto) throws DomainException {
-		if (Validator.isAlfanumeric(descripcion_producto) && 
-				Validator.cumpleLongitud(descripcion_producto, 5, 100)) {
+		if (Validator.cumpleLongitud(descripcion_producto, 5, 100)) {
 			this.pro_descripcion = descripcion_producto;
 		} else {
 			throw new DomainException("La descripcion del producto debe ser alfanumerico de entre 5 y "
@@ -267,8 +252,7 @@ public class Producto {
 	 * @throws DomainException Si no cumple con los requisitos.
 	 */
 	public void setPro_desLarga(String explicacion_producto) throws DomainException {
-		if (Validator.isAlfanumeric(explicacion_producto) 
-				&& Validator.cumpleLongitud(explicacion_producto, 5, 2000)) {
+		if (Validator.cumpleLongitud(explicacion_producto, 5, 2000)) {
 			this.pro_desLarga = explicacion_producto;
 		} else if (explicacion_producto == null || explicacion_producto.length() == 0) {
 			this.pro_desLarga = null;
@@ -403,8 +387,7 @@ public class Producto {
 	 * @throws DomainException si no cumple los requisitos
 	 */
 	public void setPro_uniVenta(String unidadVenta_producto) throws DomainException {
-		if (Validator.isAlfanumeric(unidadVenta_producto) && 
-				Validator.cumpleLongitud(unidadVenta_producto, 1, 10)) {
+		if (Validator.cumpleLongitud(unidadVenta_producto, 1, 10)) {
 			this.pro_uniVenta = unidadVenta_producto;
 		} else {
 			throw new DomainException("La unidad de venta del producto debe ser alfanumerico de entre 1 y "
@@ -444,12 +427,9 @@ public class Producto {
 	public void setPro_uniUltNivel(String unidadUltima_producto) throws DomainException {
 		if (unidadUltima_producto == null || unidadUltima_producto.length() == 0) {
 			unidadUltima_producto = null;
-		} else if (Validator.isAlfanumeric(unidadUltima_producto)) {
-			this.pro_uniUltNivel = unidadUltima_producto;
 		} else {
-			throw new DomainException("El campo unidadUltima_producto debe ser alfanumerico.");
+			this.pro_uniUltNivel = unidadUltima_producto;
 		}
-		
 	}
 	
 	/**
@@ -485,10 +465,12 @@ public class Producto {
 	public void setPro_usoRecomendado(String usoRecomendado_producto) throws DomainException {
 		if (usoRecomendado_producto == null) {
 			usoRecomendado_producto = null;
-		} else if (Validator.isAlfanumeric(usoRecomendado_producto) && Validator.cumpleLongitud(usoRecomendado_producto, 0, 2000)) {
-			this.pro_usoRecomendado = usoRecomendado_producto;
 		} else {
-			throw new DomainException("El campo \"Uso recomendado\" debe ser alfanumerico entre 0 y 2000 caracteres.");
+			if (usoRecomendado_producto.length() > 2000) {
+				this.pro_usoRecomendado = usoRecomendado_producto.substring(0, 1999);
+			} else {
+				this.pro_usoRecomendado = usoRecomendado_producto;
+			}
 		}
 	}
 	
@@ -571,13 +553,11 @@ public class Producto {
 	 * @throws DomainException si no se cumplen los requisitos
 	 */
 	public void setPro_stat(char estado_producto) throws DomainException {
-		if (Validator.cumpleLongitud(String.valueOf(estado_producto), 1, 1) &&
-				(estado_producto == 'A' || estado_producto == 'B')) {
+		if (Validator.cumpleRangoChar(estado_producto, 'A', 'B')) {
 			this.pro_stat = estado_producto;
 		} else {
 			throw new DomainException("El estado debe ser un caracter entre \'A\' o \'B\'");
 		}
-		
 	}
 	
 }

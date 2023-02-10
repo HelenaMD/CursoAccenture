@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import es.rf.tienda.objetos.repository.ICategoria;
+import es.rf.tienda.objetos.repository.ICategoriaRepo;
 
 
 @SpringBootApplication()

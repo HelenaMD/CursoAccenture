@@ -54,6 +54,57 @@ public class Usuario {
 	 */
 	private LocalDate user_fecConfirmacion;
 	
+	
+	/**
+	 * Constructor con todos los parametros
+	 * @param id_usuario
+	 * @param user_nombre
+	 * @param user_email
+	 * @param user_pass
+	 * @param user_tipo
+	 * @param user_dni
+	 * @param user_fecAlta
+	 * @param user_fecConfirmacion
+	 * @throws DomainException
+	 */
+	public Usuario(int id_usuario, String user_nombre, String user_email, String user_pass, int user_tipo,
+			String user_dni, LocalDate user_fecAlta, LocalDate user_fecConfirmacion) throws DomainException {
+		setId_usuario(id_usuario);
+		setUser_nombre(user_nombre);
+		setUser_email(user_email);
+		setUser_pass(user_pass);
+		setUser_tipo(user_tipo);
+		setUser_dni(user_dni);
+		setUser_fecAlta(user_fecAlta);
+		setUser_fecConfirmacion(user_fecConfirmacion);
+	}
+	
+	/**
+	 * Constructor con parametros requeridos
+	 * @param id_usuario
+	 * @param user_nombre
+	 * @param user_email
+	 * @param user_pass
+	 * @param user_tipo
+	 * @throws DomainException
+	 */
+	public Usuario(int id_usuario, String user_nombre, String user_email, String user_pass, 
+			int user_tipo) throws DomainException {
+		setId_usuario(id_usuario);
+		setUser_nombre(user_nombre);
+		setUser_email(user_email);
+		setUser_pass(user_pass);
+		setUser_tipo(user_tipo);
+		setUser_dni(null);
+		setUser_fecAlta(null);
+		setUser_fecConfirmacion(null);
+	}
+	
+	/**
+	 * Constructor vacio
+	 */
+	public Usuario() {}
+
 	/**
 	 * Getter de id_usuario
 	 * @return int
@@ -84,8 +135,7 @@ public class Usuario {
 	 * @throws DomainException si los requisitos no se cumplen
 	 */
 	public void setUser_nombre(String user_nombre) throws DomainException {
-		if (Validator.isAlfanumeric(user_nombre) && 
-				Validator.cumpleLongitud(user_nombre, 5, 100)) {
+		if (Validator.cumpleLongitud(user_nombre, 5, 100)) {
 			this.user_nombre = user_nombre;
 		} else {
 			throw new DomainException("El nombre del usuario debe ser alfanumerico"
@@ -192,12 +242,15 @@ public class Usuario {
 	/**
 	 * Setter de user_fecAlta
 	 * @param user_fecAlta LocalDate
+	 * @throws DomainException 
 	 */
-	public void setUser_fecAlta(LocalDate user_fecAlta) {
+	public void setUser_fecAlta(LocalDate user_fecAlta) throws DomainException {
 		if (user_fecAlta == null) {
 			this.user_fecAlta = null;
-		} else {
+		} else if (Validator.esFechaActual(user_fecAlta)){
 			this.user_fecAlta = user_fecAlta;
+		} else {
+			throw new DomainException("La fecha de alta debe ser la fecha actual en el momento del alta!");
 		}
 	}
 	
@@ -213,13 +266,16 @@ public class Usuario {
 	/**
 	 * Setter de user_fecConfirmacion
 	 * @param user_fecConfirmacion LocalDate
+	 * @throws DomainException 
 	 */
-	public void setUser_fecConfirmacion(LocalDate user_fecConfirmacion) {
+	public void setUser_fecConfirmacion(LocalDate user_fecConfirmacion) throws DomainException {
 		if (user_fecConfirmacion == null) {
 			this.user_fecConfirmacion = null;
-		} else {
+		} else if (Validator.esFechaActual(user_fecConfirmacion)){
 			this.user_fecConfirmacion = user_fecConfirmacion;
+		} else {
+			throw new DomainException("La fecha de confirmacion debe ser la fecha actual en el momento "
+					+ "de la confirmacion!");
 		}
-		
 	}
 }

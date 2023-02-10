@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import es.rf.tienda.exception.DomainException;
 import es.rf.tienda.util.Validator;
 import jakarta.persistence.Column;
@@ -25,7 +27,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "CATEGORIA")
-public class Categoria implements Serializable {
+public class Categoria implements Serializable, Modelo {
 	
 	//Si es autonumerico como pone en el excel tiene que ser static para poder
 	// hacerlo autoincremental
@@ -80,6 +82,7 @@ public class Categoria implements Serializable {
 	public Categoria() {}
 	
 	@Transient
+	@JsonIgnore
 	public boolean isValidInsert(){
 		if (!Validator.isVacio(cat_nombre)) {
 			return true;
@@ -89,6 +92,7 @@ public class Categoria implements Serializable {
 	}
 	
 	@Transient
+	@JsonIgnore
 	public boolean isValidUpdate(){
 		if (!Validator.isVacio(cat_nombre) && id_categoria > 0) {
 			return true;
@@ -127,7 +131,7 @@ public class Categoria implements Serializable {
 	 * 
 	 */
 	public void setCat_nombre(String cat_nombre) throws DomainException {
-		if (Validator.cumpleLongitud(cat_nombre, 5, 50) && Validator.isAlfanumeric(cat_nombre)) {
+		if (Validator.cumpleLongitud(cat_nombre, 5, 50)) {
 			this.cat_nombre = cat_nombre;
 		} else {
 			throw new DomainException("El nombre de la categoria debe ser alfanumerico y tener entre "
@@ -149,8 +153,12 @@ public class Categoria implements Serializable {
 	 * 
 	 */
 	public void setCat_descripcion(String cat_descripcion) throws DomainException {
-		if (Validator.cumpleLongitudMax(cat_descripcion, 200) && Validator.isAlfanumeric(cat_descripcion)) {
-			this.cat_descripcion = cat_descripcion;
+		if (cat_descripcion != null) {
+			if (cat_descripcion.length() > 200) {
+				this.cat_descripcion = cat_descripcion.substring(0, 199);
+			} else {
+				this.cat_descripcion = cat_descripcion;
+			}
 		} else if (cat_descripcion == null) {
 			this.cat_descripcion = null;
 		} else {

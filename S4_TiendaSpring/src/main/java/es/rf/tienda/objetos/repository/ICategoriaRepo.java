@@ -10,7 +10,7 @@ import es.rf.tienda.dominio.Categoria;
 
 
 @Repository
-public interface ICategoria extends JpaRepository<Categoria, Integer>{
+public interface ICategoriaRepo extends JpaRepository<Categoria, Integer>{
 	
 
 }

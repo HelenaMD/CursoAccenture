@@ -218,6 +218,18 @@ public class Validator {
 		}
 		return false;
 	}
+	
+	public static boolean cumpleRangoChar(
+			char valor, 
+			char valorMinimo,
+			char valorMaximo){
+		//Si valor es mayor o igual que valorMinimo y valor es menor o igual que valorMaximo
+		if (valor == valorMinimo || valor == valorMaximo) {
+			//Devuelve true
+			return true;
+		}
+		return false;
+	}
 
 
 	/** ***************************************************************************************
@@ -335,6 +347,19 @@ public class Validator {
 			return true;
 		} catch (DateTimeParseException dtpe) {}
 		//Si da error devolvera false.
+		return false;
+	}
+	
+	/**
+	 * esFechaActual
+	 * Recibe un LocalDate y comprueba si coincide con la fecha actual.
+	 * @param fecha LocalDate
+	 * @return boolean
+	 */
+	public static boolean esFechaActual(LocalDate fecha){
+		if (comprobarNulo(fecha) && LocalDate.now().compareTo(fecha) == 0) { //Y la fecha no es posterior a la fecha maxima
+			return true;
+		}
 		return false;
 	}
 	
