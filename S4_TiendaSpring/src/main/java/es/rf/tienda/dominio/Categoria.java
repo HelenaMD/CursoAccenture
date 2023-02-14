@@ -152,17 +152,15 @@ public class Categoria implements Serializable, Modelo {
 	 * @throws DomainException si no cumple con los requisitos
 	 * 
 	 */
-	public void setCat_descripcion(String cat_descripcion) throws DomainException {
+	public void setCat_descripcion(String cat_descripcion) {
 		if (cat_descripcion != null) {
 			if (cat_descripcion.length() > 200) {
-				this.cat_descripcion = cat_descripcion.substring(0, 199);
+				this.cat_descripcion = cat_descripcion.substring(0, 200);
 			} else {
 				this.cat_descripcion = cat_descripcion;
 			}
 		} else if (cat_descripcion == null) {
 			this.cat_descripcion = null;
-		} else {
-			throw new DomainException(ErrorMessages.CAT_DESC_LONGITUD);
 		}
 	}
 

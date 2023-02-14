@@ -1,10 +1,11 @@
 package es.rf.tienda.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.rf.tienda.dominio.Categoria;
-import es.rf.tienda.exception.DomainException;
 import es.rf.tienda.services.ServicioCategoria;
+import es.rf.tienda.util.ErrorMessages;
 
 /**
  * Nombre: CategoriaController
@@ -49,17 +50,18 @@ public class CategoriaController {
 			int idint = Integer.valueOf(id);
 			Categoria c = cDao.leerUno(idint);
 			if (c == null) {
-				resp.setCode_respuesta(400);
-				resp.setStatus_mensaje("La categoria que buscas no existe.");
+				resp.setCode_respuesta(HttpStatus.BAD_REQUEST.value());
+				resp.setStatus_mensaje(ErrorMessages.CAT_NO_EXISTE);
 			} else {
-				resp.setCode_respuesta(200);
-				resp.setStatus_mensaje("Ok");
+				resp.setCode_respuesta(HttpStatus.ACCEPTED.value());
+				resp.setStatus_mensaje(ErrorMessages.OK);
 				resp.setObjeto_dominio(c);
 			}
 			return resp;
 		} catch (NumberFormatException nfe) {
-			resp.setCode_respuesta(400);
-			resp.setStatus_mensaje("'" + id + "' no es un id valido.");
+			String errMsg = ErrorMessages.BAD_ID.replaceAll("?", id);
+			resp.setCode_respuesta(HttpStatus.BAD_REQUEST.value());
+			resp.setStatus_mensaje(errMsg);
 			return resp;
 		}
 		
@@ -83,9 +85,9 @@ public class CategoriaController {
 	public String[] alta(@RequestBody Categoria c) {
 		c.setId_categoria(0);
 		if (cDao.insert(c)) {
-			return new String[] {"200", "Registro salvado"};
+			return new String[] {String.valueOf(HttpStatus.ACCEPTED.value()), ErrorMessages.REGISTRO_SALVADO};
 		} else {
-			return new String[] {"400", "Registro no valido"};
+			return new String[] {String.valueOf(HttpStatus.BAD_REQUEST.value()), ErrorMessages.REGISTRO_INVALIDO};
 		}
 		
 	}
@@ -98,9 +100,9 @@ public class CategoriaController {
 	@PutMapping
 	public String[] modificacion(@RequestBody Categoria c) {
 		if(cDao.update(c)) {
-			return new String[] {"200", "Registro modificado"};
+			return new String[] {String.valueOf(HttpStatus.ACCEPTED.value()), ErrorMessages.REGISTRO_MODIF};
 		} else {
-			return new String[] {"400", "Registro invalido"};
+			return new String[] {String.valueOf(HttpStatus.BAD_REQUEST.value()), ErrorMessages.REGISTRO_INVALIDO};
 		}
 	}
 	
@@ -114,12 +116,13 @@ public class CategoriaController {
 		try {
 			int idint = Integer.valueOf(id);
 			if(idint > 0 && cDao.deleteById(idint)) {
-				return new String[] {"200", "Registro borrado"};
+				return new String[] {String.valueOf(HttpStatus.ACCEPTED.value()), ErrorMessages.REGISTRO_BORRADO};
 			} else {
-				return new String[] {"400", "Registro invalido"};
+				return new String[] {String.valueOf(HttpStatus.BAD_REQUEST.value()), ErrorMessages.REGISTRO_INVALIDO};
 			}
 		} catch (NumberFormatException nfe) {
-			return new String[] {"400", "'" + id + "' no es una id valida."};
+			String errMsg = ErrorMessages.BAD_ID.replaceAll("?", id);
+			return new String[] {String.valueOf(HttpStatus.BAD_REQUEST.value()), errMsg};
 		}
 		
 	}
