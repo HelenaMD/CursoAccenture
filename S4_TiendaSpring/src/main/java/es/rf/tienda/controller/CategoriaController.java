@@ -1,11 +1,13 @@
 package es.rf.tienda.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,7 @@ import es.rf.tienda.util.ErrorMessages;
  * @version 10 de febrero de 2023
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/categoria")
 public class CategoriaController {
 
@@ -59,7 +62,7 @@ public class CategoriaController {
 			}
 			return resp;
 		} catch (NumberFormatException nfe) {
-			String errMsg = ErrorMessages.BAD_ID.replaceAll("?", id);
+			String errMsg = ErrorMessages.BAD_ID;//.replaceAll("?", id);
 			resp.setCode_respuesta(HttpStatus.BAD_REQUEST.value());
 			resp.setStatus_mensaje(errMsg);
 			return resp;
@@ -72,8 +75,12 @@ public class CategoriaController {
 	 * @return List<Categoria>
 	 */
 	@GetMapping()
-	public List<Categoria> leerTodos() {
-		return cDao.listAll();
+	public MensajeRespuestaList<Categoria> leerTodos() {
+		MensajeRespuestaList<Categoria> resp = new MensajeRespuestaList<Categoria>();
+		resp.setCode_respuesta(HttpStatus.ACCEPTED.value());
+		resp.setStatus_mensaje(ErrorMessages.OK);
+		resp.setObjeto_dominio(cDao.listAll());
+		return resp;
 	}
 	
 	/**
@@ -121,7 +128,7 @@ public class CategoriaController {
 				return new String[] {String.valueOf(HttpStatus.BAD_REQUEST.value()), ErrorMessages.REGISTRO_INVALIDO};
 			}
 		} catch (NumberFormatException nfe) {
-			String errMsg = ErrorMessages.BAD_ID.replaceAll("?", id);
+			String errMsg = ErrorMessages.BAD_ID;//.replaceAll("?", id);
 			return new String[] {String.valueOf(HttpStatus.BAD_REQUEST.value()), errMsg};
 		}
 		
